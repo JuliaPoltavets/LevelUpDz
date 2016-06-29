@@ -1,0 +1,15 @@
+# git ignore file
+_Resharper
+!packages/repositories.config
+!/packages/repositories.config
+/TestResults
+[Bb]in
+[Oo]bj
+[Cc]sx
+[Rr]cf
+*.user
+*.suo
+/.vs/config
+/Tools/[Pp]ackages
+/[Pp]ackages
+*.nupkg
