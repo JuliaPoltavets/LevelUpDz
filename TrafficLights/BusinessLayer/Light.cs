@@ -1,6 +1,4 @@
-﻿using TrafficLights.DataModel;
-
-namespace TrafficLights.BusinessLayer
+﻿namespace TrafficLights.BusinessLayer
 {
     public class Light
     {

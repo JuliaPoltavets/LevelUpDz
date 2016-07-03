@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using TrafficLights.DataModel;
 
 namespace TrafficLights.PresentationLayer
 {
