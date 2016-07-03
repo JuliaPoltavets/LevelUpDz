@@ -10,5 +10,15 @@
             XCoord = x;
             YCoord = y;
         }
+
+        public bool Equals(Point p)
+        {
+            if ((object)p == null)
+            {
+                return false;
+            }
+
+            return (XCoord == p.XCoord) && (YCoord == p.YCoord);
+        }
     }
 }
