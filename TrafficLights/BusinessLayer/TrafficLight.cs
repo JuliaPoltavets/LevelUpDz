@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Xml;
 
-namespace TrafficLights.DataModel
+namespace TrafficLights.BusinessLayer
 {
     [Flags]
     public enum TrafficLightStates

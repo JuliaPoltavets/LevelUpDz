@@ -1,4 +1,4 @@
-﻿namespace TrafficLights.DataModel
+﻿namespace TrafficLights.BusinessLayer
 {
     public class Point
     {

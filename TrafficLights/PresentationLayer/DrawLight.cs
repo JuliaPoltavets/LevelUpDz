@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Mime;
+using TrafficLights.BusinessLayer;
 using TrafficLights.DataModel;
 
 namespace TrafficLights.PresentationLayer

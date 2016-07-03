@@ -1,6 +1,6 @@
-﻿using System;
+﻿using TrafficLights.DataModel;
 
-namespace TrafficLights.DataModel
+namespace TrafficLights.BusinessLayer
 {
     public class Light
     {
