@@ -4,7 +4,7 @@ using TrafficLights.BusinessLayer;
 
 namespace TrafficLights.PresentationLayer
 {
-    public static class Drawing
+    public static class DrawingTrafficLight
     {
         public static void DrawLight(Light light)
         {
