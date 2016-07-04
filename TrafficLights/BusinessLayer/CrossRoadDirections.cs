@@ -14,10 +14,10 @@ namespace TrafficLights.BusinessLayer
             var rightLeftDirCoords = new Point(startCoords.XCoord - 1, startCoords.YCoord);
             var bottomTopDirCoords = new Point(startCoords.XCoord, startCoords.YCoord - 1);
             var topBottomDirCoords = new Point(startCoords.XCoord, startCoords.YCoord + 1);
-            LeftRightDirection = new DirectionArrow((char)26, leftRightDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
-            RightLeftDirection = new DirectionArrow((char)27, rightLeftDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
-            BottomTopDirection = new DirectionArrow((char)24, bottomTopDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
-            TopBottomDirection = new DirectionArrow((char)25, topBottomDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
+            LeftRightDirection = new DirectionArrow((char)16, leftRightDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
+            RightLeftDirection = new DirectionArrow((char)17, rightLeftDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
+            BottomTopDirection = new DirectionArrow((char)30, bottomTopDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
+            TopBottomDirection = new DirectionArrow((char)31, topBottomDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
         }
 
         public void SetPossibleCrossRoadMoveDirections(TrafficLightStates leftTopTrafficLightState)
