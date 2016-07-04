@@ -55,10 +55,5 @@
                 LightState = true;
             }
         }
-
-        public static void ChangeLightState(Light light)
-        {
-
-        }
     }
 }

@@ -19,12 +19,33 @@ namespace TrafficLights.PresentationLayer
             var bottomLeftCoords = new Point(0, topLeftCoords.YCoord + roadCross.RoadWidth);
             var topRightCoords = new Point(roadCross.PlaygroundWidth, topLeftCoords.YCoord);
             var bottomRightCoords = new Point(roadCross.PlaygroundWidth, bottomLeftCoords.YCoord);
+
+            DrawRoadBorder(leftTopCoords, leftBottomCoords, roadCross.VerticalBorderSymbol);
+            DrawRoadBorder(rightTopCoords, rightBottomCoords, roadCross.VerticalBorderSymbol);
+
+            DrawRoadBorder(topLeftCoords, topRightCoords, roadCross.HorizontalBorderSymbol);
+            DrawRoadBorder(bottomLeftCoords, bottomRightCoords, roadCross.HorizontalBorderSymbol);
         }
 
         public static void DrawRoadBorder(Point from, Point to, char symbol)
         {
-            Point currentPosition = from;
-            while(currentPosition.Equals(to));
+            if ((from.XCoord < to.XCoord)&&(from.YCoord == to.YCoord))
+            {
+                for (int x = from.XCoord; x < to.XCoord; x++)
+                {
+                    Console.SetCursorPosition(x, from.YCoord);
+                    Console.Write(symbol);
+                }
+
+            }
+            if ((from.YCoord < to.YCoord) && (from.XCoord == to.XCoord))
+            {
+                for (int y = from.YCoord; y < to.YCoord; y++)
+                {
+                    Console.SetCursorPosition(from.XCoord, y);
+                    Console.Write(symbol);
+                }
+            }
         }
     }
 }             

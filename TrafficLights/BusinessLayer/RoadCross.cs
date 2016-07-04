@@ -9,7 +9,7 @@
         public int PlaygroundWidth { get; private set; }
         public int PlaygroundHeight { get; private set; }
 
-        public RoadCross(int pgWidth, int pgHeight, int roadWidth, char verSymb = (char)186, char horzSymb = (char)186)
+        public RoadCross(int pgWidth, int pgHeight, int roadWidth, char verSymb = (char)124, char horzSymb = (char)173)
         {
             PlaygroundWidth = pgWidth;
             PlaygroundHeight = pgHeight;
