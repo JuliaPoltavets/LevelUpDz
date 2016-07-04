@@ -13,26 +13,34 @@ namespace TrafficLights
     {
         static void Main(string[] args)
         {
-            var leftTopRightBottomStates = new TrafficLightStates[]
+            var leftTopRightBottomStates = new[]
             {
                 TrafficLightStates.Green,
                 TrafficLightStates.Yellow,
                 TrafficLightStates.Red,
                 TrafficLightStates.Red | TrafficLightStates.Yellow
             };
-            var rightTopleftBottomStates = new TrafficLightStates[]
+            var rightTopleftBottomStates = new[]
             {
                 TrafficLightStates.Red,
                 TrafficLightStates.Red | TrafficLightStates.Yellow,
                 TrafficLightStates.Green,
                 TrafficLightStates.Yellow
             };
-            var roadCross = new RoadCross(Console.WindowWidth,Console.WindowHeight,6);
+
+            //Draw the Road
+            var roadCross = new RoadCross(Console.WindowWidth, Console.WindowHeight, 6);
             DrawingRoadCross.DrawRoadCross(roadCross);
+
+            //Define Traffic Lights
             var leftTopTrafficLight = new TrafficLight(new Point(35, 5), (char)15);
             var rightTopTrafficLight = new TrafficLight(new Point(45, 5), (char)15);
             var leftBottomTrafficLight = new TrafficLight(new Point(35, 16), (char)15);
             var rightBottomTrafficLight = new TrafficLight(new Point(45, 16), (char)15);
+
+            //Define Cross Road Traffic Directions
+            var crossRoadDirections = new CrossRoadDirections(new Point(Console.WindowWidth/2, Console.WindowHeight/2));
+            DrawingDirectionArrows.DrawRoadCrossDirections(crossRoadDirections);
 
             var endDate = DateTime.UtcNow.AddMinutes(1);
             while (DateTime.UtcNow <= endDate)

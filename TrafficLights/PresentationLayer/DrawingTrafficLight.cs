@@ -16,7 +16,6 @@ namespace TrafficLights.PresentationLayer
 
         public static void DrawTrafficLight(TrafficLight trafficLight)
         {
-            //top light 
             DrawLight(trafficLight.TopLight);
             DrawLight(trafficLight.MiddleLight);
             DrawLight(trafficLight.BottomLight);
