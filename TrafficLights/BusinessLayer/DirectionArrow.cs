@@ -5,7 +5,7 @@
         public enum DirectionArrowColors
         {
             Inactive = System.ConsoleColor.Gray,
-            Active = System.ConsoleColor.White
+            Active = System.ConsoleColor.Yellow
         }
 
         public bool DirectionArrowState { get; private set; }

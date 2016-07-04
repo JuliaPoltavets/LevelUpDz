@@ -19,5 +19,38 @@ namespace TrafficLights.BusinessLayer
             BottomTopDirection = new DirectionArrow((char)24, bottomTopDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
             TopBottomDirection = new DirectionArrow((char)25, topBottomDirCoords, DirectionArrow.DirectionArrowColors.Inactive);
         }
+
+        public void SetPossibleCrossRoadMoveDirections(TrafficLightStates leftTopTrafficLightState)
+        {
+            if (leftTopTrafficLightState == TrafficLightStates.Green)
+            {
+                DirectionArrow.ResetCurrentColorToEmpty(LeftRightDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(RightLeftDirection);
+                DirectionArrow.HighlightLight(TopBottomDirection);
+                DirectionArrow.HighlightLight(BottomTopDirection);
+            }
+            if (leftTopTrafficLightState == TrafficLightStates.Yellow)
+            {
+                DirectionArrow.ResetCurrentColorToEmpty(LeftRightDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(RightLeftDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(TopBottomDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(BottomTopDirection);
+            }
+            if (leftTopTrafficLightState == TrafficLightStates.Red)
+            {
+                DirectionArrow.HighlightLight(LeftRightDirection);
+                DirectionArrow.HighlightLight(RightLeftDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(TopBottomDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(BottomTopDirection);
+
+            }
+            if (leftTopTrafficLightState == (TrafficLightStates.Red | TrafficLightStates.Yellow))
+            {
+                DirectionArrow.ResetCurrentColorToEmpty(LeftRightDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(RightLeftDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(TopBottomDirection);
+                DirectionArrow.ResetCurrentColorToEmpty(BottomTopDirection);
+            }
+        }
     }
 }

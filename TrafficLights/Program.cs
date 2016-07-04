@@ -32,7 +32,8 @@ namespace TrafficLights
             var roadCross = new RoadCross(Console.WindowWidth, Console.WindowHeight, 6);
             DrawingRoadCross.DrawRoadCross(roadCross);
 
-            //Define Traffic Lights
+            //Define Traffic Lights 
+            //Can be improved instead of hardcoded coords we can calc them from the console width and road width
             var leftTopTrafficLight = new TrafficLight(new Point(35, 5), (char)15);
             var rightTopTrafficLight = new TrafficLight(new Point(45, 5), (char)15);
             var leftBottomTrafficLight = new TrafficLight(new Point(35, 16), (char)15);
@@ -57,6 +58,9 @@ namespace TrafficLights
                     leftBottomTrafficLight.SetTrafficLightState(rightTopleftBottomStates[stateNum]);
                     DrawingTrafficLight.DrawTrafficLight(rightTopTrafficLight);
                     DrawingTrafficLight.DrawTrafficLight(leftBottomTrafficLight);
+
+                    crossRoadDirections.SetPossibleCrossRoadMoveDirections(leftTopRightBottomStates[stateNum]);
+                    DrawingDirectionArrows.DrawRoadCrossDirections(crossRoadDirections);
                     System.Threading.Thread.Sleep(1000);
                 }
 
