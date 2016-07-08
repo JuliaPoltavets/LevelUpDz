@@ -68,7 +68,8 @@ namespace ArraysProject.PresentationLayer
             PrintArrayOnConsole(array);
         }
 
-        public static void PrintArrayOnConsole(string[] array)
+        #region PrivateMethods
+        private static void PrintArrayOnConsole(string[] array)
         {
             string result = "{";
             for (int i = 0; i < array.Length; i++)
@@ -84,7 +85,7 @@ namespace ArraysProject.PresentationLayer
             }
             Console.WriteLine(result);
         }
-        public static void PrintArrayOnConsole(int[] array)
+        private static void PrintArrayOnConsole(int[] array)
         {
             string result = "{";
             for (int i = 0; i < array.Length; i++)
@@ -100,5 +101,6 @@ namespace ArraysProject.PresentationLayer
             }
             Console.WriteLine(result);
         }
+        #endregion
     }
 }
