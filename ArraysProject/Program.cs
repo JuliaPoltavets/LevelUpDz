@@ -38,19 +38,12 @@ namespace ArraysProject
                 17
             };
             PrintArray.ReverseArrayPrint(arrayToReverse);
-            Console.ReadLine();
             PrintArray.SwapOddEvenArrayPrint(arrayToSwap);
-            Console.ReadLine();
             PrintArray.ReflectArrayItemsPrint(arrayToReflect);
-            Console.ReadLine();
             PrintArray.SwapMinMaxPrint(arrayToSwapMinMax);
-            Console.ReadLine();
             PrintArray.FindNMaxElementsPrint(arrayToSwapMinMax, 2);
-            Console.ReadLine();
             PrintArray.FindNMinElementsPrint(arrayToSwapMinMax,2);
-            Console.ReadLine();
             PrintArray.SetEachNElementToValuePrint(arrayToSwapMinMax,2,0);
-            Console.ReadLine();
         }
     }
 }

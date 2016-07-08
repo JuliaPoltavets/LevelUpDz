@@ -12,6 +12,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("Reversed array is ");
             var reversedArray = ArrayHelperMethods.Reverse(array);
             PrintArrayOnConsole(reversedArray);
+            Console.ReadLine();
         }
 
         public static void SwapOddEvenArrayPrint(string[] array)
@@ -21,6 +22,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("Swapped array is ");
             ArrayHelperMethods.SwapOddEven(array);
             PrintArrayOnConsole(array);
+            Console.ReadLine();
         }
 
         public static void ReflectArrayItemsPrint(string[] array)
@@ -30,6 +32,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("Array with reflected items is ");
             var reflectedArray = ArrayHelperMethods.ReflectArrayItems(array);
             PrintArrayOnConsole(reflectedArray);
+            Console.ReadLine();
         }
 
         public static void SwapMinMaxPrint(int[] array)
@@ -39,6 +42,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("Array with swapped min and max is ");
             ArrayHelperMethods.SwapMinMax(array);
             PrintArrayOnConsole(array);
+            Console.ReadLine();
         }
 
         public static void FindNMaxElementsPrint(int[] array, int count)
@@ -48,6 +52,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("Max " + count + " elements in array are ");
             var maxResult = ArrayHelperMethods.FindMinOrMax(array,false,count);
             PrintArrayOnConsole(maxResult);
+            Console.ReadLine();
         }
 
         public static void FindNMinElementsPrint(int[] array, int count)
@@ -57,6 +62,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("Min " + count + " elements in array are ");
             var minResult = ArrayHelperMethods.FindMinOrMax(array, true, count);
             PrintArrayOnConsole(minResult);
+            Console.ReadLine();
         }
 
         public static void SetEachNElementToValuePrint(int[] array, int index, int value)
@@ -66,6 +72,7 @@ namespace ArraysProject.PresentationLayer
             Console.Write("New array is ");
             ArrayHelperMethods.ChangeValueOfGivenElement(array, index, value);
             PrintArrayOnConsole(array);
+            Console.ReadLine();
         }
 
         #region PrivateMethods
