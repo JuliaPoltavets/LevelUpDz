@@ -15,7 +15,7 @@ namespace ArraysProject
                 "c",
                 "d"
             };
-            string[] arrayToSwap = new[] 
+            string[] arrayToSwap = new[]
             {
                 "1",
                 "2",
@@ -42,8 +42,10 @@ namespace ArraysProject
             PrintArray.ReflectArrayItemsPrint(arrayToReflect);
             PrintArray.SwapMinMaxPrint(arrayToSwapMinMax);
             PrintArray.FindNMaxElementsPrint(arrayToSwapMinMax, 2);
-            PrintArray.FindNMinElementsPrint(arrayToSwapMinMax,2);
-            PrintArray.SetEachNElementToValuePrint(arrayToSwapMinMax,2,0);
+            PrintArray.FindNMinElementsPrint(arrayToSwapMinMax, 2);
+            PrintArray.SetEachNElementToValuePrint(arrayToSwapMinMax, 2, 0);
+            var t = new double[] { 1, 3, 6, 4, 0, 7, 5, 4 };
+            BusinessLayer.SortingAlgorithms.MergeSort(t, 0, 7);
         }
     }
 }

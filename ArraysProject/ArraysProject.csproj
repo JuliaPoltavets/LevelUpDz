@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLayer\ArrayHelperMethods.cs" />
+    <Compile Include="BusinessLayer\SortingAlgorithms.cs" />
     <Compile Include="BusinessLayer\StringHelperMethods.cs" />
     <Compile Include="PresentationLayer\PrintArray.cs" />
     <Compile Include="Program.cs" />
