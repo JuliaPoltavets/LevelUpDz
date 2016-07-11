@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,33 @@ namespace ArraysProject.BusinessLayer
                 MergeSort(array, middleIndex + 1, rightBound);
                 MergeArrays(array, leftBound, middleIndex, rightBound);
             }
+        }
+
+        public static void QuickSort(int[] array, int leftBound, int rightBound)
+        {
+            if (leftBound < rightBound)
+            {
+                var sortedIndex = Partition(array, leftBound, rightBound);
+                QuickSort(array, leftBound, sortedIndex - 1);
+                QuickSort(array, sortedIndex + 1,rightBound);
+
+            }
+        }
+
+        private static int Partition(int[] array, int leftBound, int rightBound)
+        {
+            int pivotElementValue = array[rightBound];
+            int ltePivotCounter = leftBound;
+            for (int gtPivotCounter = leftBound; gtPivotCounter <= rightBound - 1; gtPivotCounter++)
+            {
+                if (array[gtPivotCounter] <= pivotElementValue)
+                {
+                    ArrayHelperMethods.SwapTwoIndexes(array, ltePivotCounter, gtPivotCounter);
+                    ltePivotCounter++;
+                }
+            }
+            ArrayHelperMethods.SwapTwoIndexes(array, ltePivotCounter, rightBound);
+            return ltePivotCounter;
         }
 
         public static void MergeArrays(double[] array, int leftBound, int middleIndex, int rightBound)

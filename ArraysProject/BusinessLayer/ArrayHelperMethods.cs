@@ -130,5 +130,12 @@ namespace ArraysProject.BusinessLayer
             }
             return result;
         }
+
+        public static void SwapTwoIndexes(int[] array, int leftIndex, int rightIndex)
+        {
+            var temp = array[leftIndex];
+            array[leftIndex] = array[rightIndex];
+            array[rightIndex] = temp;
+        }
     }
 }
