@@ -37,13 +37,19 @@ namespace ArraysProject
                 87,
                 17
             };
-            PrintArray.ReverseArrayPrint(arrayToReverse);
-            PrintArray.SwapOddEvenArrayPrint(arrayToSwap);
-            PrintArray.ReflectArrayItemsPrint(arrayToReflect);
-            PrintArray.SwapMinMaxPrint(arrayToSwapMinMax);
-            PrintArray.FindNMaxElementsPrint(arrayToSwapMinMax, 2);
-            PrintArray.FindNMinElementsPrint(arrayToSwapMinMax, 2);
-            PrintArray.SetEachNElementToValuePrint(arrayToSwapMinMax, 2, 0);
+            //PrintArray.ReverseArrayPrint(arrayToReverse);
+            //PrintArray.SwapOddEvenArrayPrint(arrayToSwap);
+            //PrintArray.ReflectArrayItemsPrint(arrayToReflect);
+            //PrintArray.SwapMinMaxPrint(arrayToSwapMinMax);
+            //PrintArray.FindNMaxElementsPrint(arrayToSwapMinMax, 2);
+            //PrintArray.FindNMinElementsPrint(arrayToSwapMinMax, 2);
+            //PrintArray.SetEachNElementToValuePrint(arrayToSwapMinMax, 2, 0);
+            int[] insertionSortArray = new[] { 2, 5, 4, 6, 1, 3};
+            PrintArray.InsertionSortPrint(insertionSortArray);
+            double[] mergeSortArray = new double[] { 2, 5, 4, 6, 1, 3 };
+            PrintArray.MergeSortPrint(mergeSortArray, 0, 5);
+            int[] quickSortArray = new [] { 2, 5, 4, 6, 1, 3 };
+            PrintArray.QuickSortPrint(quickSortArray, 0, 5);
         }
     }
 }

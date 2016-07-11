@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ArraysProject.BusinessLayer;
 
 namespace ArraysProject.PresentationLayer
@@ -75,7 +76,45 @@ namespace ArraysProject.PresentationLayer
             Console.ReadLine();
         }
 
-        #region PrivateMethods
+        public static void InsertionSortPrint(int[] array)
+        {
+            Console.Write("Task sort the array ");
+            PrintArrayOnConsole(array);
+            Console.Write("Using Insertion Sort algorithm sorted array is ");
+            Stopwatch watch = Stopwatch.StartNew();
+            SortingAlgorithms.InsertionSort(array);
+            watch.Stop();
+            PrintArrayOnConsole(array);
+            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
+            Console.ReadLine();
+        }
+
+        public static void MergeSortPrint(double[] array, int leftBound, int rightBound)
+        {
+            Console.Write("Task sort the array ");
+            PrintArrayOnConsole(array);
+            Console.Write("Using Merge Sort algorithm sorted array is ");
+            Stopwatch watch = Stopwatch.StartNew();
+            SortingAlgorithms.MergeSort(array,0,array.Length-1);
+            watch.Stop();
+            PrintArrayOnConsole(array);
+            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
+            Console.ReadLine();
+        }
+
+        public static void QuickSortPrint(int[] array, int leftBound, int rightBound)
+        {
+            Console.Write("Task sort the array ");
+            PrintArrayOnConsole(array);
+            Console.Write("Using Quick Sort algorithm sorted array is ");
+            Stopwatch watch = Stopwatch.StartNew();
+            SortingAlgorithms.QuickSort(array, leftBound, rightBound);
+            watch.Stop();
+            PrintArrayOnConsole(array);
+            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
+            Console.ReadLine();
+        }
+
         private static void PrintArrayOnConsole(string[] array)
         {
             string result = "{";
@@ -92,6 +131,24 @@ namespace ArraysProject.PresentationLayer
             }
             Console.WriteLine(result);
         }
+
+        private static void PrintArrayOnConsole(double[] array)
+        {
+            string result = "{";
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i == array.Length - 1)
+                {
+                    result += array[i] + "}";
+                }
+                else
+                {
+                    result += array[i] + ", ";
+                }
+            }
+            Console.WriteLine(result);
+        }
+
         private static void PrintArrayOnConsole(int[] array)
         {
             string result = "{";
@@ -108,6 +165,5 @@ namespace ArraysProject.PresentationLayer
             }
             Console.WriteLine(result);
         }
-        #endregion
     }
 }
