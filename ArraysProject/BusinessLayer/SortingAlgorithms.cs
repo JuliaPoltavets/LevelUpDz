@@ -46,6 +46,20 @@ namespace ArraysProject.BusinessLayer
             }
         }
 
+        public static void BubbleSort(int[] array)
+        {
+            for (int i = 0; i < array.Length;i++)
+            {
+                for (int j = 0; j <= array.Length - 2; j++)
+                {
+                    if (array[j] > array[j + 1])
+                    {
+                        ArrayHelperMethods.SwapTwoIndexes(array, j, j+1);
+                    }                     
+                }
+            }
+        }
+
         private static int Partition(int[] array, int leftBound, int rightBound)
         {
             int pivotElementValue = array[rightBound];

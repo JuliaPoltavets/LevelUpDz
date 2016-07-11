@@ -89,6 +89,19 @@ namespace ArraysProject.PresentationLayer
             Console.ReadLine();
         }
 
+        public static void BubbleSortPrint(int[] array)
+        {
+            Console.Write("Task sort the array ");
+            PrintArrayOnConsole(array);
+            Console.Write("Using Bubble Sort algorithm sorted array is ");
+            Stopwatch watch = Stopwatch.StartNew();
+            SortingAlgorithms.InsertionSort(array);
+            watch.Stop();
+            PrintArrayOnConsole(array);
+            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
+            Console.ReadLine();
+        }
+
         public static void MergeSortPrint(double[] array, int leftBound, int rightBound)
         {
             Console.Write("Task sort the array ");

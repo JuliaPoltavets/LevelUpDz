@@ -50,6 +50,8 @@ namespace ArraysProject
             PrintArray.MergeSortPrint(mergeSortArray, 0, 5);
             int[] quickSortArray = new [] { 2, 5, 4, 6, 1, 3 };
             PrintArray.QuickSortPrint(quickSortArray, 0, 5);
+            int[] bubbleSortArray = new[] { 2, 5, 4, 6, 1, 3 };
+            PrintArray.BubbleSortPrint(bubbleSortArray);
         }
     }
 }
