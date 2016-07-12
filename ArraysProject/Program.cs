@@ -8,50 +8,19 @@ namespace ArraysProject
     {
         static void Main(string[] args)
         {
-            string[] arrayToReverse = new[]
-            {
-                "a",
-                "b",
-                "c",
-                "d"
-            };
-            string[] arrayToSwap = new[]
-            {
-                "1",
-                "2",
-                "3",
-                "4",
-                "5"
-            };
-            string[] arrayToReflect = new[]
-            {
-                "hello world",
-                "nice hat",
-                "12345"
-            };
-            int[] arrayToSwapMinMax = new[]
-            {
-                45,
-                10,
-                5,
-                87,
-                17
-            };
-            //PrintArray.ReverseArrayPrint(arrayToReverse);
-            //PrintArray.SwapOddEvenArrayPrint(arrayToSwap);
-            //PrintArray.ReflectArrayItemsPrint(arrayToReflect);
-            //PrintArray.SwapMinMaxPrint(arrayToSwapMinMax);
-            //PrintArray.FindNMaxElementsPrint(arrayToSwapMinMax, 2);
-            //PrintArray.FindNMinElementsPrint(arrayToSwapMinMax, 2);
-            //PrintArray.SetEachNElementToValuePrint(arrayToSwapMinMax, 2, 0);
-            int[] insertionSortArray = new[] { 2, 5, 4, 6, 1, 3};
-            PrintArray.InsertionSortPrint(insertionSortArray);
-            double[] mergeSortArray = new double[] { 2, 5, 4, 6, 1, 3 };
-            PrintArray.MergeSortPrint(mergeSortArray, 0, 5);
-            int[] quickSortArray = new [] { 2, 5, 4, 6, 1, 3 };
-            PrintArray.QuickSortPrint(quickSortArray, 0, 5);
-            int[] bubbleSortArray = new[] { 2, 5, 4, 6, 1, 3 };
-            PrintArray.BubbleSortPrint(bubbleSortArray);
+            // Multiplex two matrices
+            int[,] mA = new int[2, 3];
+            int[,] mB = new int[3, 5];
+            MultidimensionalArrays.SetRandomValues(mA, -10,10);
+            MultidimensionalArrays.SetRandomValues(mB,-10,10);
+            PrintArray.PrintMultidimensionalArray(mA);
+            PrintArray.PrintMultidimensionalArray(mB);
+            int[,] mR = MultidimensionalArrays.MultiplexTwoMatrices(mA, mB);
+            PrintArray.PrintMultidimensionalArray(mR);
+            Console.ReadLine();
+
+
         }
+        
     }
 }

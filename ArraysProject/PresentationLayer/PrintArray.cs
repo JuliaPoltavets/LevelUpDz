@@ -6,126 +6,59 @@ namespace ArraysProject.PresentationLayer
 {
     public class PrintArray
     {
-        public static void ReverseArrayPrint(string[] array)
+        public void PrintSingleArray(int[] givenArray, string message, string[,] arrayArgs=null)
         {
-            Console.Write("Task to revers the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Reversed array is ");
-            var reversedArray = ArrayHelperMethods.Reverse(array);
-            PrintArrayOnConsole(reversedArray);
-            Console.ReadLine();
+            Console.Write(message);
+            PrintArrayOnConsole(givenArray);
+            Console.WriteLine();
+            if (arrayArgs != null)
+            {
+
+            }
         }
 
-        public static void SwapOddEvenArrayPrint(string[] array)
+        public void PrintInitAndOutputArrays(int[] initArray, int[] outputArray, string message, string[,] arrayArgs = null)
         {
-            Console.Write("Task to swap odd with even element of the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Swapped array is ");
-            ArrayHelperMethods.SwapOddEven(array);
-            PrintArrayOnConsole(array);
-            Console.ReadLine();
+            Console.WriteLine(message);
+            Console.Write("Intial array is ");
+            PrintArrayOnConsole(initArray);
+            Console.Write("Output array is ");
+            PrintArrayOnConsole(outputArray);
+            if (arrayArgs != null)
+            {
+
+            }
         }
 
-        public static void ReflectArrayItemsPrint(string[] array)
+        public static void PrintMultidimensionalArray(int[,] matrix)
         {
-            Console.Write("Task to reflect all elementes in the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Array with reflected items is ");
-            var reflectedArray = ArrayHelperMethods.ReflectArrayItems(array);
-            PrintArrayOnConsole(reflectedArray);
-            Console.ReadLine();
+            int matrixPrintPadding = GetMaxPad(matrix) + 1;
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Console.Write("[{0," + matrixPrintPadding+"}]",matrix[i, j]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
 
-        public static void SwapMinMaxPrint(int[] array)
+        private static int GetMaxPad(int[,] matrix)
         {
-            Console.Write("Task to swap min and max in the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Array with swapped min and max is ");
-            ArrayHelperMethods.SwapMinMax(array);
-            PrintArrayOnConsole(array);
-            Console.ReadLine();
-        }
-
-        public static void FindNMaxElementsPrint(int[] array, int count)
-        {
-            Console.Write("Task find " + count +" Max elements in the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Max " + count + " elements in array are ");
-            var maxResult = ArrayHelperMethods.FindMinOrMax(array,false,count);
-            PrintArrayOnConsole(maxResult);
-            Console.ReadLine();
-        }
-
-        public static void FindNMinElementsPrint(int[] array, int count)
-        {
-            Console.Write("Task find " + count + " Min elements in the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Min " + count + " elements in array are ");
-            var minResult = ArrayHelperMethods.FindMinOrMax(array, true, count);
-            PrintArrayOnConsole(minResult);
-            Console.ReadLine();
-        }
-
-        public static void SetEachNElementToValuePrint(int[] array, int index, int value)
-        {
-            Console.Write("Task set each " + index + " element " + " equal to "+ value + " in array ");
-            PrintArrayOnConsole(array);
-            Console.Write("New array is ");
-            ArrayHelperMethods.ChangeValueOfGivenElement(array, index, value);
-            PrintArrayOnConsole(array);
-            Console.ReadLine();
-        }
-
-        public static void InsertionSortPrint(int[] array)
-        {
-            Console.Write("Task sort the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Using Insertion Sort algorithm sorted array is ");
-            Stopwatch watch = Stopwatch.StartNew();
-            SortingAlgorithms.InsertionSort(array);
-            watch.Stop();
-            PrintArrayOnConsole(array);
-            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
-            Console.ReadLine();
-        }
-
-        public static void BubbleSortPrint(int[] array)
-        {
-            Console.Write("Task sort the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Using Bubble Sort algorithm sorted array is ");
-            Stopwatch watch = Stopwatch.StartNew();
-            SortingAlgorithms.InsertionSort(array);
-            watch.Stop();
-            PrintArrayOnConsole(array);
-            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
-            Console.ReadLine();
-        }
-
-        public static void MergeSortPrint(double[] array, int leftBound, int rightBound)
-        {
-            Console.Write("Task sort the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Using Merge Sort algorithm sorted array is ");
-            Stopwatch watch = Stopwatch.StartNew();
-            SortingAlgorithms.MergeSort(array,0,array.Length-1);
-            watch.Stop();
-            PrintArrayOnConsole(array);
-            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
-            Console.ReadLine();
-        }
-
-        public static void QuickSortPrint(int[] array, int leftBound, int rightBound)
-        {
-            Console.Write("Task sort the array ");
-            PrintArrayOnConsole(array);
-            Console.Write("Using Quick Sort algorithm sorted array is ");
-            Stopwatch watch = Stopwatch.StartNew();
-            SortingAlgorithms.QuickSort(array, leftBound, rightBound);
-            watch.Stop();
-            PrintArrayOnConsole(array);
-            Console.WriteLine("Sorting took " + watch.ElapsedMilliseconds + " ms");
-            Console.ReadLine();
+            int result = 0;
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    int curElLength = matrix[i, j].ToString().Length;
+                    if (result < curElLength)
+                    {
+                        result = curElLength;
+                    }
+                }
+            }
+            return result;
         }
 
         private static void PrintArrayOnConsole(string[] array)
