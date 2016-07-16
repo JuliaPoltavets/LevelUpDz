@@ -43,6 +43,28 @@ namespace ArraysProject.PresentationLayer
             }
             Console.WriteLine();
         }
+        public static void PrintJaggedArray(int[][] jaggedArray)
+        {
+            int subArrayPadSize = GetMaxPad(jaggedArray);
+            for (int i = 0; i < jaggedArray.Length; i++)
+            {
+                if (jaggedArray[i] != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("[{0}] \t", i);
+                    Console.ResetColor();
+
+                    for (int j = 0; j < jaggedArray[i].Length; j++)
+                    {
+                        if (jaggedArray[i].Length > 0)
+                        {
+                            Console.Write("[{0," + subArrayPadSize + "}]", jaggedArray[i][j]);
+                        }
+                    }
+                    Console.WriteLine();
+                }
+            }
+        }
 
         private static int GetMaxPad(int[,] matrix)
         {
@@ -55,6 +77,26 @@ namespace ArraysProject.PresentationLayer
                     if (result < curElLength)
                     {
                         result = curElLength;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static int GetMaxPad(int[][] jaggedArray)
+        {
+            int result = 0;
+            for (int i = 0; i < jaggedArray.Length; i++)
+            {
+                if (jaggedArray[i] != null)
+                {
+                    for (int j = 0; j < jaggedArray[i].Length; j++)
+                    {
+                        int curElLength = jaggedArray[i][j].ToString().Length;
+                        if (result < curElLength)
+                        {
+                            result = curElLength;
+                        }
                     }
                 }
             }
