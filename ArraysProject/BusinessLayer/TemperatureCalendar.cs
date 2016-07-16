@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ArraysProject.BusinessLayer
 {
@@ -68,6 +69,33 @@ namespace ArraysProject.BusinessLayer
         {
             int[] newDayData = (int[])temperatureCalendar[copyFromDay].Clone();
             JaggedArrays.SetSubArrayByIndex(temperatureCalendar, dayIndex, newDayData);
+        }
+
+        public static double GetAverageTemperatureForDay(int[][] temperatureCalendar, int dateIndex)
+        {
+            if (temperatureCalendar[dateIndex] != null)
+            {
+                int[] dateMeasurements = temperatureCalendar[dateIndex];
+                return dateMeasurements.Average();
+            }
+            return double.NegativeInfinity;
+        }
+
+        public static double GetAverageTemperatureForMonth(int[][] temperatureCalendar)
+        {
+            double[] bufferTempAverageArray = new double[temperatureCalendar.Length];
+            int initDaysCounter = 0;
+            for (int i = 0; i < temperatureCalendar.Length; i++)
+            {
+                if (temperatureCalendar[i] != null)
+                {
+                    bufferTempAverageArray[initDaysCounter] = temperatureCalendar[i].Average();
+                    initDaysCounter++;
+                }
+            }
+            double[] avgTempArray = new double[initDaysCounter];
+            Array.Copy(bufferTempAverageArray, 0, avgTempArray, 0, initDaysCounter);
+            return avgTempArray.Average();
         }
 
     }

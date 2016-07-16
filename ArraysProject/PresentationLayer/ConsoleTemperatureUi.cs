@@ -3,47 +3,10 @@ using ArraysProject.BusinessLayer;
 
 namespace ArraysProject.PresentationLayer
 {
-    public class TemperatureCalendarProgram
+    public class ConsoleTemperatureUi
     {
-        public static void RunTemperatureCalendar()
-        {
-            DateTime currentDate = DateTime.UtcNow;
-            bool leapYear;
-            int[][] temperatureCalendar = null;
-            int year = GetYear(out leapYear);
-
-            TemperatureCalendar.Month month = GetMonth();
-            int daysCount = TemperatureCalendar.GetDays(month, leapYear);
-
-            if (currentDate.Year == year && currentDate.Month == (int)month)
-            {
-                bool isCopy;
-                string inputData;
-                temperatureCalendar = TemperatureCalendar.GenerateTemperatureCalendar(daysCount, 10, -10, 10, currentDate.Day);
-                PrintArray.PrintJaggedArray(temperatureCalendar);
-                AddOrCopy(out inputData, out isCopy);
-                if (!isCopy)
-                {
-                    TemperatureCalendar.AddNewMeasurementToTheDay(temperatureCalendar, currentDate.Day-1, inputData);
-                    PrintArray.PrintJaggedArray(temperatureCalendar);
-                }
-                else
-                {
-                    TemperatureCalendar.CopyMeasurementFromAnotherDay(temperatureCalendar, int.Parse(inputData), currentDate.Day - 1);
-                    PrintArray.PrintJaggedArray(temperatureCalendar);
-                }
-            }
-            else
-            { 
-                temperatureCalendar = TemperatureCalendar.GenerateTemperatureCalendar(daysCount, 10, -10, 10);
-                PrintArray.PrintJaggedArray(temperatureCalendar);
-            }
-
-        }
-
-
         #region Private
-        private static int GetYear(out bool leapYear)
+        public static int GetYear(out bool leapYear)
         {
             string inputString = string.Empty;
             leapYear = false;
@@ -56,14 +19,14 @@ namespace ArraysProject.PresentationLayer
                 isValidInt = int.TryParse(inputString, out year);
             } while (inputString.Length != 4 || !isValidInt);
 
-            if (year%4 == 0)
+            if (year % 4 == 0)
             {
                 leapYear = true;
             }
             return year;
         }
 
-        private static TemperatureCalendar.Month GetMonth()
+        public static TemperatureCalendar.Month GetMonth()
         {
             string inputString = string.Empty;
             TemperatureCalendar.Month month;
@@ -79,7 +42,7 @@ namespace ArraysProject.PresentationLayer
             return month;
         }
 
-        private static void AddOrCopy(out string inputData, out bool isCopy)
+        public static void SetManuallyOrCopy(out string inputData, out bool isCopy)
         {
             inputData = string.Empty;
             isCopy = false;
@@ -107,6 +70,30 @@ namespace ArraysProject.PresentationLayer
                         break;
                     }
             }
+        }
+
+        public static int GetIntFromConsole(string message)
+        {
+            int result;
+            string inputData;
+            do
+            {
+                Console.WriteLine(message);
+                inputData = Console.ReadLine();
+
+            } while (!int.TryParse(inputData, out result));
+            return result;
+        }
+
+        public static string GetStringFromConsole(string message)
+        {
+            Console.WriteLine(message);
+            return Console.ReadLine();
+        }
+
+        public static void PrintStringOnConsole(string message)
+        {
+            Console.WriteLine(message);
         }
 
         #endregion

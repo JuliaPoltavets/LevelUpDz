@@ -50,8 +50,9 @@
     <Compile Include="BusinessLayer\SortingAlgorithms.cs" />
     <Compile Include="BusinessLayer\StringHelperMethods.cs" />
     <Compile Include="BusinessLayer\TemperatureCalendar.cs" />
+    <Compile Include="PresentationLayer\ConsoleTemperatureUi.cs" />
     <Compile Include="PresentationLayer\PrintArray.cs" />
-    <Compile Include="PresentationLayer\TemperatureCalendarProgram.cs" />
+    <Compile Include="TemperatureCalendarProgram.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
