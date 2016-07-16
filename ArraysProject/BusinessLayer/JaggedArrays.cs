@@ -25,5 +25,20 @@ namespace ArraysProject.BusinessLayer
                 jaggedArray[i] = new int[elementsCount];
             }
         }
+
+        public static void InitJaggedSubArrayByIndex(int[][] jaggedArray, int elementIndex, int minValue, int maxValue)
+        {
+            Random rndValues = new Random();
+            int elementsCount = rndValues.Next(minValue, maxValue);
+            jaggedArray[elementIndex] = new int[elementsCount];
+        }
+
+        public static void SetSubArrayByIndex(int[][] jaggedArray, int elementIndex, int[] valueToSet)
+        { 
+            if (elementIndex < jaggedArray.Length)
+            {
+                jaggedArray[elementIndex] = valueToSet;
+            }
+        }
     }
 }

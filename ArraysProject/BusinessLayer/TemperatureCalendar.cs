@@ -58,5 +58,17 @@ namespace ArraysProject.BusinessLayer
             return tempCalendar;
         }
 
+        public static void AddNewMeasurementToTheDay(int[][] temperatureCalendar, int dayIndex, string updateData)
+        {
+            var newDayData = StringHelperMethods.StringToIntArray(updateData, ',');
+            JaggedArrays.SetSubArrayByIndex(temperatureCalendar, dayIndex, newDayData);
+        }
+
+        public static void CopyMeasurementFromAnotherDay(int[][] temperatureCalendar, int copyFromDay, int dayIndex)
+        {
+            int[] newDayData = (int[])temperatureCalendar[copyFromDay].Clone();
+            JaggedArrays.SetSubArrayByIndex(temperatureCalendar, dayIndex, newDayData);
+        }
+
     }
 }
