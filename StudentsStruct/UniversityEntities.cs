@@ -17,21 +17,22 @@ namespace StudentsStruct
 
         public struct Student
         {
-            private readonly short _studentId;
-            private string _studentFirstName;
-            private string _studentLastName;
-            private int[][] _studentMarks;
+            private readonly int[][] _studentMarks;
 
-            public short StudentId => _studentId;
+            public short StudentId { get; private set; }
+
+            public string StudentFirstName { get; private set; }
+
+            public string StudentLastName { get; private set; }
 
             public double AverageGrade => GetAverageGrade();
 
             public Student(short studentId, string studentFirstName, string studentLastName)
             {
                 var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
-                _studentId = studentId;
-                _studentFirstName = studentFirstName;
-                _studentLastName = studentLastName;
+                StudentId = studentId;
+                StudentFirstName = studentFirstName;
+                StudentLastName = studentLastName;
                 _studentMarks = new int[subjectsCount][];
             }
 
@@ -40,7 +41,7 @@ namespace StudentsStruct
                 bool wasSuccessfullyChanged = false;
                 if (!string.IsNullOrEmpty(newFirstName))
                 {
-                    this._studentFirstName = newFirstName;
+                    this.StudentFirstName = newFirstName;
                     wasSuccessfullyChanged = true;
                 }
                 return wasSuccessfullyChanged;
@@ -51,7 +52,7 @@ namespace StudentsStruct
                 bool wasSuccessfullyChanged = false;
                 if (!string.IsNullOrEmpty(newLastName))
                 {
-                    this._studentLastName = newLastName;
+                    this.StudentLastName = newLastName;
                     wasSuccessfullyChanged = true;
                 }
                 return wasSuccessfullyChanged;
@@ -186,11 +187,17 @@ namespace StudentsStruct
                 return false;
             }
 
-            public void GetStudentWithHighestAvgGrade(ref Student student)
+            public Student GetStudentWithHighestAvgGrade()
             {
                 Student[] tempGroup = _students.OrderByDescending(st => st.AverageGrade).ToArray();
-                student = tempGroup.FirstOrDefault();
-            } 
+                return tempGroup.FirstOrDefault();
+            }
+
+            public Student GetStudentWithLowestAvgGrade()
+            {
+                Student[] tempGroup = _students.OrderByDescending(st => st.AverageGrade).ToArray();
+                return tempGroup.LastOrDefault();
+            }
 
             private bool TryGetStudentIndexById(short studentId, out int studentIndex)
             {
@@ -206,8 +213,6 @@ namespace StudentsStruct
                 }
                 return studentWasFound;
             }
-
-
         }
     }
 }

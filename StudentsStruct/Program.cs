@@ -10,27 +10,29 @@ namespace StudentsStruct
     {
         static void Main(string[] args)
         {
-            StudentsStruct.UniversityEntities.StudentsGroup group101 = default(UniversityEntities.StudentsGroup);
-            Random mark = new Random();
-            for (int i = 0; i < 5; i++)
-            {
-                StudentsStruct.UniversityEntities.Student st = new UniversityEntities.Student((short) i, "Name" + i,
-                    "Last" + i);
-                group101.AddStudent(st);
+            
+        }
 
-            }
-            foreach (var st in group101.GroupList)
+        static UniversityEntities.StudentsGroup GenerateDemoGroupOfStudents(short groupId, int studentsCount, int minMarksCount, int maxMarksCount)
+        {
+            Random rnd = new Random();
+            UniversityEntities.StudentsGroup group = new UniversityEntities.StudentsGroup(groupId);
+            for (int i = 0; i < studentsCount; i++)
             {
-                for (int i = 0; i < Enum.GetNames(typeof(UniversityEntities.Subjects)).Length; i++)
+                UniversityEntities.Student student = new UniversityEntities.Student((short)i, "FirstName"+i, "LastName"+i);
+                for (int j = 0; j < Enum.GetNames(typeof(UniversityEntities.Subjects)).Length; j++)
                 {
-                    st.TrySetNewMark((UniversityEntities.Subjects)i, mark.Next(1, 12));
+                    int[] marksArray = new int[rnd.Next(minMarksCount, maxMarksCount)];
+                    for (int k = 0; k < marksArray.Length; k++)
+                    {
+                        marksArray[k] = rnd.Next(1, 12);
+                    }
+                    student.ReplaceMarks((UniversityEntities.Subjects)j, marksArray);
                 }
+                group.AddStudent(student);
             }
-            foreach (var st in group101.GroupList)
-            {
-                Console.WriteLine(st.StudentId +": "+st.AverageGrade);
-            }
-            Console.ReadLine();
+
+            return group;
         }
     }
 }
