@@ -16,6 +16,7 @@ namespace ArraysProject
             TemperatureCalendar.Month month = ConsoleTemperatureUi.GetMonth();
             int daysCount = TemperatureCalendar.GetDays(month, leapYear);
 
+            //init with random temperatures
             if (currentDate.Year == year && currentDate.Month == (int)month)
             {
                 bool isCopy;
