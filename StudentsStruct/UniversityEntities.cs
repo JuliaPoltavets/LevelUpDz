@@ -92,11 +92,11 @@ namespace StudentsStruct
                 _studentMarks[(int)subject] = marks;
             }
 
-            public double AverageGradeForSubject(Subjects subjects)
+            public double AverageGradeForSubject(Subjects subject)
             {
-                if (_studentMarks[(int) subjects] != null)
+                if (_studentMarks[(int) subject] != null)
                 {
-                    return _studentMarks[(int) subjects].Average();
+                    return _studentMarks[(int) subject].Average();
                 }
                 return 0;
             }
@@ -110,6 +110,15 @@ namespace StudentsStruct
                     tempAvgMarks[i] = AverageGradeForSubject((Subjects)i);
                 }
                 return tempAvgMarks.Average();
+            }
+
+            public int[] GetMarksBySubject(Subjects subject)
+            {
+                if (_studentMarks[(int)subject] != null)
+                {
+                    return _studentMarks[(int)subject];
+                }
+                return null;
             }
         }
 

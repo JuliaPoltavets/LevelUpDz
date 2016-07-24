@@ -20,7 +20,6 @@ namespace StudentsStruct
 
         public static bool TryReadStudentStringPersonalData(string consoleMessage, out string stringData)
         {
-            string result;
             Console.WriteLine(consoleMessage);
             string consoleInput = Console.ReadLine();
             if (!string.IsNullOrEmpty(consoleInput))
@@ -77,9 +76,24 @@ namespace StudentsStruct
         {
             foreach (var student in group.GroupList)
             {
-                Console.WriteLine("Student {0}: {1} {2}", student.StudentId,student.StudentFirstName, student.StudentLastName);
-                
+                PrintStudentData(student);
             }
+        }
+
+        public static void PrintStudentData(UniversityEntities.Student student)
+        {
+            Console.WriteLine("Student {0}: {1} {2}", student.StudentId, student.StudentFirstName, student.StudentLastName);
+            for (int i = 0; i < Enum.GetNames(typeof(UniversityEntities.Subjects)).Length; i++)
+            {
+                UniversityEntities.Subjects sbj = (UniversityEntities.Subjects)i;
+                int[] marksForSbj = student.GetMarksBySubject(sbj);
+                if (marksForSbj != null)
+                {
+                    Console.WriteLine(sbj + ": " + string.Join(", ", marksForSbj));
+                    Console.WriteLine("Average grade for subject {0}: equals to: {1}",sbj,student.AverageGradeForSubject(sbj));
+                }
+            }
+            Console.WriteLine("Average grade for student {0}: equals to: {1}", student.StudentId, student.AverageGrade);
         }
 
     }

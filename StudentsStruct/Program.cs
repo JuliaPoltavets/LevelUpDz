@@ -10,9 +10,40 @@ namespace StudentsStruct
     {
         static void Main(string[] args)
         {
-            
+            //Random group
+            UniversityEntities.StudentsGroup group = GenerateDemoGroupOfStudents(0, 2, 2, 8);
+            ConsoleStudentGroup.PrintStudentsGroup(group);
+
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+            // Add new student
+            int newStIndex = group.GroupList.Length;
+            UniversityEntities.Student student = new UniversityEntities.Student((short)newStIndex, "FirstName"+ newStIndex,"LastName"+ newStIndex);
+            group.AddStudent(student);
+            // Add mark to subject 
+            student.TrySetNewMark(UniversityEntities.Subjects.Art, 10);
+            // Add array of marks to subject
+            student.ReplaceMarks(UniversityEntities.Subjects.Geography, new []{10,10,10});
+            //Replace whole array of marks for subject
+            student.ReplaceMarks(UniversityEntities.Subjects.Art, new []{5,5,5,5,5,5});
+            //Change student's personal info
+            student.ChangeFirstName("NewFirstName");
+            student.ChangeLastName("NewLastName");
+            //Delete student by studentId
+            group.DeleteStudentFromGroup(0);
+            //Best student
+            UniversityEntities.Student bestStudent = group.GetStudentWithHighestAvgGrade();
+            //Worst student
+            UniversityEntities.Student worstStudent = group.GetStudentWithLowestAvgGrade();
+            // AverageGrade by student's Id
+            double avgStudentGrade;
+            group.TryGetAverageStudentGrade(bestStudent.StudentId, out avgStudentGrade);
+
+            ConsoleStudentGroup.PrintStudentsGroup(group);
+            Console.ReadLine();
         }
 
+        #region DemoData
         static UniversityEntities.StudentsGroup GenerateDemoGroupOfStudents(short groupId, int studentsCount, int minMarksCount, int maxMarksCount)
         {
             Random rnd = new Random();
@@ -34,5 +65,6 @@ namespace StudentsStruct
 
             return group;
         }
+        #endregion
     }
 }
