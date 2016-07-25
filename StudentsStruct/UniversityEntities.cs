@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
@@ -19,20 +19,29 @@ namespace StudentsStruct
         {
             private readonly int[][] _studentMarks;
 
-            public short StudentId { get; private set; }
+            private short _studentId;
+            private string _studentFirstName;
+            private string _studentLastName;
 
-            public string StudentFirstName { get; private set; }
+            public short StudentId { get { return _studentId; } }
+            public string StudentFirstName { get { return _studentFirstName; } }
+            public string StudentLastName { get { return _studentLastName; } }
 
-            public string StudentLastName { get; private set; }
+            public double AverageGrade 
+            {
+                get
+                {
+                    return GetAverageGrade();
+                }
+            }
 
-            public double AverageGrade => GetAverageGrade();
 
             public Student(short studentId, string studentFirstName, string studentLastName)
             {
                 var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
-                StudentId = studentId;
-                StudentFirstName = studentFirstName;
-                StudentLastName = studentLastName;
+                _studentId = studentId;
+                _studentFirstName = studentFirstName;
+                _studentLastName = studentLastName;
                 _studentMarks = new int[subjectsCount][];
             }
 
@@ -41,7 +50,7 @@ namespace StudentsStruct
                 bool wasSuccessfullyChanged = false;
                 if (!string.IsNullOrEmpty(newFirstName))
                 {
-                    this.StudentFirstName = newFirstName;
+                    _studentFirstName = newFirstName;
                     wasSuccessfullyChanged = true;
                 }
                 return wasSuccessfullyChanged;
@@ -52,7 +61,7 @@ namespace StudentsStruct
                 bool wasSuccessfullyChanged = false;
                 if (!string.IsNullOrEmpty(newLastName))
                 {
-                    this.StudentLastName = newLastName;
+                    _studentLastName = newLastName;
                     wasSuccessfullyChanged = true;
                 }
                 return wasSuccessfullyChanged;
@@ -132,7 +141,7 @@ namespace StudentsStruct
                 _students = null;
             }
 
-            public Student[] GroupList => _students;
+            public Student[] GroupList{get{return _students;}}
 
             public void AddStudent(Student student)
             {
