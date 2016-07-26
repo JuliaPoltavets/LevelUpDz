@@ -18,14 +18,16 @@ namespace StudentsStruct
 
             // Add new student
             int newStIndex = group.GroupList.Length;
-            UniversityEntities.Student student = new UniversityEntities.Student((short)newStIndex, "FirstName"+ newStIndex,"LastName"+ newStIndex);
+            UniversityEntities.Student student = new UniversityEntities.Student((short)newStIndex, "FirstName" + newStIndex, "LastName" + newStIndex);
             group.AddStudent(student);
             // Add mark to subject 
-            student.TrySetNewMark(UniversityEntities.Subjects.Art, 10);
+            student.AddNewMarkToStudentProgress(UniversityEntities.Subjects.Art, 10);
+            // Add mark to subject 
+            student.AddNewMarkToStudentProgress(UniversityEntities.Subjects.Art, 2);
             // Add array of marks to subject
-            student.ReplaceMarks(UniversityEntities.Subjects.Geography, new []{10,10,10});
+            student.ReplaceJornalInStudentProgress(UniversityEntities.Subjects.Geography, new byte[] { 10, 10, 10 });
             //Replace whole array of marks for subject
-            student.ReplaceMarks(UniversityEntities.Subjects.Art, new []{5,5,5,5,5,5});
+            student.ReplaceJornalInStudentProgress(UniversityEntities.Subjects.Art, new byte[] { 5, 5, 5, 5, 5, 5 });
             //Change student's personal info
             student.ChangeFirstName("NewFirstName");
             student.ChangeLastName("NewLastName");
@@ -50,15 +52,15 @@ namespace StudentsStruct
             UniversityEntities.StudentsGroup group = new UniversityEntities.StudentsGroup(groupId);
             for (int i = 0; i < studentsCount; i++)
             {
-                UniversityEntities.Student student = new UniversityEntities.Student((short)i, "FirstName"+i, "LastName"+i);
+                UniversityEntities.Student student = new UniversityEntities.Student((short)i, "FirstName" + i, "LastName" + i);
                 for (int j = 0; j < Enum.GetNames(typeof(UniversityEntities.Subjects)).Length; j++)
                 {
-                    int[] marksArray = new int[rnd.Next(minMarksCount, maxMarksCount)];
+                    byte[] marksArray = new byte[rnd.Next(minMarksCount, maxMarksCount)];
                     for (int k = 0; k < marksArray.Length; k++)
                     {
-                        marksArray[k] = rnd.Next(1, 12);
+                        marksArray[k] = (byte)rnd.Next(1, 12);
                     }
-                    student.ReplaceMarks((UniversityEntities.Subjects)j, marksArray);
+                    student.ReplaceJornalInStudentProgress((UniversityEntities.Subjects)j, marksArray);
                 }
                 group.AddStudent(student);
             }

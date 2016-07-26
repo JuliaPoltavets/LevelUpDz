@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
@@ -15,34 +15,73 @@ namespace StudentsStruct
             Politology
         }
 
-        public struct Student
+        public struct SubjectJornal
         {
-            private readonly int[][] _studentMarks;
+            public Subjects SubjectName { get; private set; }
+            public byte[] MarkList { get; private set; }
 
-            private short _studentId;
-            private string _studentFirstName;
-            private string _studentLastName;
-
-            public short StudentId { get { return _studentId; } }
-            public string StudentFirstName { get { return _studentFirstName; } }
-            public string StudentLastName { get { return _studentLastName; } }
-
-            public double AverageGrade 
+            public SubjectJornal(Subjects subjectName, byte[] marksList)
             {
-                get
+                SubjectName = subjectName;
+                MarkList = marksList;
+            }
+
+            public void AddMark(byte mark)
+            {
+                if (MarkList == null)
                 {
-                    return GetAverageGrade();
+                    MarkList = new[] { mark };
+                }
+                else
+                {
+                    byte[] updatedGroup = new byte[MarkList.Length + 1];
+                    Array.Copy(MarkList, 0, updatedGroup, 0, MarkList.Length);
+                    updatedGroup[updatedGroup.Length - 1] = mark;
+                    MarkList = updatedGroup;
                 }
             }
 
+            public double GetAverageGrade()
+            {
+                int totalScore = 0;
+                double avgResult = 0;
+                if (MarkList != null)
+                {
+                    foreach (byte mark in MarkList)
+                    {
+                        totalScore += mark;
+                    }
+                    avgResult = totalScore / MarkList.Length;
+                }
+                return avgResult;
+            }
+        }
+
+        public struct Student
+        {
+            private SubjectJornal[] _studentProgress;
+
+            public short StudentId { get; private set; }
+
+            public string StudentFirstName { get; private set; }
+
+            public string StudentLastName { get; private set; }
+
+            public double AverageGrade
+            {
+                get
+                {
+                    return GetStudentAverageGrade();
+                }
+            }
 
             public Student(short studentId, string studentFirstName, string studentLastName)
             {
                 var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
-                _studentId = studentId;
-                _studentFirstName = studentFirstName;
-                _studentLastName = studentLastName;
-                _studentMarks = new int[subjectsCount][];
+                StudentId = studentId;
+                StudentFirstName = studentFirstName;
+                StudentLastName = studentLastName;
+                _studentProgress = new SubjectJornal[0];
             }
 
             public bool ChangeFirstName(string newFirstName)
@@ -50,7 +89,7 @@ namespace StudentsStruct
                 bool wasSuccessfullyChanged = false;
                 if (!string.IsNullOrEmpty(newFirstName))
                 {
-                    _studentFirstName = newFirstName;
+                    this.StudentFirstName = newFirstName;
                     wasSuccessfullyChanged = true;
                 }
                 return wasSuccessfullyChanged;
@@ -61,56 +100,90 @@ namespace StudentsStruct
                 bool wasSuccessfullyChanged = false;
                 if (!string.IsNullOrEmpty(newLastName))
                 {
-                    _studentLastName = newLastName;
+                    this.StudentLastName = newLastName;
                     wasSuccessfullyChanged = true;
                 }
                 return wasSuccessfullyChanged;
             }
 
-            public void TrySetNewMark(Subjects subject, int mark)
+            public bool TryGetJornalIndexBySubject(Subjects subjectName, out int? jornalIndex)
             {
-                int[] actualMarksForSubject = _studentMarks[(int)subject];
-                if (actualMarksForSubject == null)
+                bool isSucceeded = false;
+                jornalIndex = null;
+                for (int index = 0; index < _studentProgress.Length; index++)
                 {
-                    _studentMarks[(int) subject] = new[] {mark};
+                    SubjectJornal jornal = _studentProgress[index];
+                    if (jornal.SubjectName == subjectName)
+                    {
+                        isSucceeded = true;
+                        jornalIndex = index;
+                    }
+                }
+                return isSucceeded;
+            }
+
+            public void AddNewMarkToStudentProgress(Subjects subject, byte mark)
+            {
+                int? actualJornalIndex;
+                if (!TryGetJornalIndexBySubject(subject, out actualJornalIndex))
+                {
+                    SubjectJornal[] updatedStudentProgress = new SubjectJornal[_studentProgress.Length + 1];
+                    Array.Copy(_studentProgress, 0, updatedStudentProgress, 0, _studentProgress.Length);
+                    updatedStudentProgress[updatedStudentProgress.Length - 1] = new SubjectJornal(subject, new[] { mark });
+                    _studentProgress = updatedStudentProgress;
                 }
                 else
                 {
-                    int[] updatedMarks = new int[actualMarksForSubject.Length + 1];
-                    Array.Copy(actualMarksForSubject, 0, updatedMarks, 0, actualMarksForSubject.Length);
-                    updatedMarks[updatedMarks.Length - 1] = mark;
-                    _studentMarks[(int) subject] = updatedMarks;
+                    _studentProgress[actualJornalIndex.Value].AddMark(mark);
                 }
             }
 
-            public void TryChangeMarkByIndex(Subjects subject,int markToChange, int newMarkValue)
+            public void ReplaceJornalInStudentProgress(Subjects subject, byte[] marksList)
             {
-                int[] actualMarksForSubject = _studentMarks[(int)subject];
-                if (actualMarksForSubject == null)
+                int? actualJornalIndex;
+                SubjectJornal newJornal = new SubjectJornal(subject, marksList);
+                if (!TryGetJornalIndexBySubject(subject, out actualJornalIndex))
                 {
-                    _studentMarks[(int)subject] = new[] { newMarkValue };
+                    SubjectJornal[] updatedStudentProgress = new SubjectJornal[_studentProgress.Length + 1];
+                    Array.Copy(_studentProgress, 0, updatedStudentProgress, 0, _studentProgress.Length);
+                    updatedStudentProgress[updatedStudentProgress.Length - 1] = newJornal;
+                    _studentProgress = updatedStudentProgress;
                 }
                 else
                 {
-                    _studentMarks[(int)subject][markToChange] = newMarkValue;
+                    _studentProgress[actualJornalIndex.Value] = newJornal;
                 }
             }
 
-            public void ReplaceMarks(Subjects subject, int[] marks)
+            public void ChangeMarkByIndex(Subjects subject, int markIndexToChange, byte newMarkValue)
             {
-                _studentMarks[(int)subject] = marks;
+                int? actualJornalIndex;
+                if (!TryGetJornalIndexBySubject(subject, out actualJornalIndex))
+                {
+                    _studentProgress = new SubjectJornal[]
+                    {
+                        new SubjectJornal(subject, new []{ newMarkValue } )
+                    };
+                }
+                if (_studentProgress[actualJornalIndex.Value].MarkList.Length - 1 < markIndexToChange)
+                {
+                    markIndexToChange = _studentProgress[actualJornalIndex.Value].MarkList.Length - 1;
+                }
+                _studentProgress[actualJornalIndex.Value].MarkList[markIndexToChange] = newMarkValue;
             }
 
             public double AverageGradeForSubject(Subjects subject)
             {
-                if (_studentMarks[(int) subject] != null)
+                int? actualJornalIndex;
+                double avgGrade = 0;
+                if (TryGetJornalIndexBySubject(subject, out actualJornalIndex))
                 {
-                    return _studentMarks[(int) subject].Average();
+                    avgGrade = _studentProgress[actualJornalIndex.Value].GetAverageGrade();
                 }
-                return 0;
+                return avgGrade;
             }
 
-            public double GetAverageGrade()
+            public double GetStudentAverageGrade()
             {
                 var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
                 double[] tempAvgMarks = new double[subjectsCount];
@@ -121,13 +194,15 @@ namespace StudentsStruct
                 return tempAvgMarks.Average();
             }
 
-            public int[] GetMarksBySubject(Subjects subject)
+            public byte[] GetMarksBySubject(Subjects subject)
             {
-                if (_studentMarks[(int)subject] != null)
+                int? actualJornalIndex;
+                byte[] marksForSubject = null;
+                if (TryGetJornalIndexBySubject(subject, out actualJornalIndex))
                 {
-                    return _studentMarks[(int)subject];
+                    marksForSubject = _studentProgress[actualJornalIndex.Value].MarkList;
                 }
-                return null;
+                return marksForSubject;
             }
         }
 
@@ -141,7 +216,7 @@ namespace StudentsStruct
                 _students = null;
             }
 
-            public Student[] GroupList{get{return _students;}}
+            public Student[] GroupList => _students;
 
             public void AddStudent(Student student)
             {

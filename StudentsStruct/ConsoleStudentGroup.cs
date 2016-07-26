@@ -9,7 +9,7 @@ namespace StudentsStruct
         {
             short result;
             Console.WriteLine("Please enter student's Id");
-            if(short.TryParse(Console.ReadLine(),out result))
+            if (short.TryParse(Console.ReadLine(), out result))
             {
                 studentId = result;
                 return true;
@@ -52,7 +52,7 @@ namespace StudentsStruct
                 return false;
             }
             intArrayData = new int[actualIntsInParsedString];
-            Array.Copy(tempArray,0, intArrayData,0,actualIntsInParsedString);
+            Array.Copy(tempArray, 0, intArrayData, 0, actualIntsInParsedString);
             return true;
         }
 
@@ -86,11 +86,11 @@ namespace StudentsStruct
             for (int i = 0; i < Enum.GetNames(typeof(UniversityEntities.Subjects)).Length; i++)
             {
                 UniversityEntities.Subjects sbj = (UniversityEntities.Subjects)i;
-                int[] marksForSbj = student.GetMarksBySubject(sbj);
+                byte[] marksForSbj = student.GetMarksBySubject(sbj);
                 if (marksForSbj != null)
                 {
                     Console.WriteLine(sbj + ": " + string.Join(", ", marksForSbj));
-                    Console.WriteLine("Average grade for subject {0}: equals to: {1}",sbj,student.AverageGradeForSubject(sbj));
+                    Console.WriteLine("Average grade for subject {0}: equals to: {1}", sbj, student.AverageGradeForSubject(sbj));
                 }
             }
             Console.WriteLine("Average grade for student {0}: equals to: {1}", student.StudentId, student.AverageGrade);
