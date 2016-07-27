@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using StudentsStruct.UniversityModel;
 
 namespace StudentsStruct
 {
@@ -7,33 +8,36 @@ namespace StudentsStruct
     {
         public static bool TryReadStudentId(out short? studentId)
         {
+            bool isSucceeded = false;
             short result;
+            studentId = null;
             Console.WriteLine("Please enter student's Id");
             if (short.TryParse(Console.ReadLine(), out result))
             {
                 studentId = result;
-                return true;
+                isSucceeded = true;
             }
-            studentId = null;
-            return false;
+            return isSucceeded;
         }
 
         public static bool TryReadStudentStringPersonalData(string consoleMessage, out string stringData)
         {
             Console.WriteLine(consoleMessage);
+            bool isSucceeded = false;
+            stringData = null;
             string consoleInput = Console.ReadLine();
             if (!string.IsNullOrEmpty(consoleInput))
             {
                 stringData = consoleInput;
-                return true;
+                isSucceeded =  true;
             }
-            stringData = null;
-            return false;
+            return isSucceeded;
         }
 
         public static bool TryReadIntArray(string consoleMessage, char[] allowedSeparators, out int[] intArrayData)
         {
             intArrayData = null;
+            bool isSucceeded = true;
             Console.WriteLine(consoleMessage);
             string[] consoleInput = Console.ReadLine().Split(allowedSeparators);
             int[] tempArray = new int[consoleInput.Length];
@@ -49,17 +53,17 @@ namespace StudentsStruct
             }
             if (actualIntsInParsedString == 0)
             {
-                return false;
+                isSucceeded = false;
             }
             intArrayData = new int[actualIntsInParsedString];
             Array.Copy(tempArray, 0, intArrayData, 0, actualIntsInParsedString);
-            return true;
+            return isSucceeded;
         }
 
-        public static UniversityEntities.Subjects GetSubject()
+        public static Subjects GetSubject()
         {
             string inputString = string.Empty;
-            UniversityEntities.Subjects subject;
+            Subjects subject;
             bool isValidSubject = false;
             do
             {
@@ -72,7 +76,7 @@ namespace StudentsStruct
             return subject;
         }
 
-        public static void PrintStudentsGroup(UniversityEntities.StudentsGroup group)
+        public static void PrintStudentsGroup(StudentsGroup group)
         {
             foreach (var student in group.GroupList)
             {
@@ -80,12 +84,12 @@ namespace StudentsStruct
             }
         }
 
-        public static void PrintStudentData(UniversityEntities.Student student)
+        public static void PrintStudentData(Student student)
         {
             Console.WriteLine("Student {0}: {1} {2}", student.StudentId, student.StudentFirstName, student.StudentLastName);
-            for (int i = 0; i < Enum.GetNames(typeof(UniversityEntities.Subjects)).Length; i++)
+            for (int i = 0; i < Enum.GetNames(typeof(Subjects)).Length; i++)
             {
-                UniversityEntities.Subjects sbj = (UniversityEntities.Subjects)i;
+                Subjects sbj = (Subjects)i;
                 byte[] marksForSbj = student.GetMarksBySubject(sbj);
                 if (marksForSbj != null)
                 {

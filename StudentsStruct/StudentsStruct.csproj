@@ -47,7 +47,10 @@
     <Compile Include="ConsoleStudentGroup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UniversityEntities.cs" />
+    <Compile Include="UniversityModel\Student.cs" />
+    <Compile Include="UniversityModel\StudentsGroup.cs" />
+    <Compile Include="UniversityModel\SubjectJornal.cs" />
+    <Compile Include="UniversityModel\Subjects.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
