@@ -1,5 +1,3 @@
-﻿// © 2015 Sitecore Corporation A/S. All rights reserved.
-
 using System;
 using System.Linq;
 
@@ -8,12 +6,9 @@ namespace StudentsStruct.UniversityModel
     public struct Student
     {
         private SubjectJornal[] _studentProgress;
-
-        public short StudentId { get; private set; }
-
-        public string StudentFirstName { get; private set; }
-
-        public string StudentLastName { get; private set; }
+        private short _studentId;
+        private string _studentFirstName;
+        private string _studentLastName;
 
         public double AverageGrade
         {
@@ -23,12 +18,36 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        public short StudentId
+        {
+            get
+            {
+                return _studentId;
+            }
+        }
+
+        public string StudentFirstName
+        {
+            get
+            {
+                return _studentFirstName;
+            }
+        }
+
+        public string StudentLastName
+        {
+            get
+            {
+                return _studentLastName;
+            }
+        }
+
         public Student(short studentId, string studentFirstName, string studentLastName)
         {
             var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
-            StudentId = studentId;
-            StudentFirstName = studentFirstName;
-            StudentLastName = studentLastName;
+            _studentFirstName = studentFirstName;
+            _studentLastName = studentLastName;
+            _studentId = studentId;
             _studentProgress = new SubjectJornal[0];
         }
 
@@ -42,7 +61,7 @@ namespace StudentsStruct.UniversityModel
             bool wasSuccessfullyChanged = false;
             if (!string.IsNullOrEmpty(newFirstName))
             {
-                this.StudentFirstName = newFirstName;
+                _studentFirstName = newFirstName;
                 wasSuccessfullyChanged = true;
             }
             return wasSuccessfullyChanged;
@@ -58,7 +77,7 @@ namespace StudentsStruct.UniversityModel
             bool wasSuccessfullyChanged = false;
             if (!string.IsNullOrEmpty(newLastName))
             {
-                this.StudentLastName = newLastName;
+                _studentLastName = newLastName;
                 wasSuccessfullyChanged = true;
             }
             return wasSuccessfullyChanged;
@@ -94,12 +113,10 @@ namespace StudentsStruct.UniversityModel
         public void AddNewMarkToStudentProgress(Subjects subjectName, byte mark)
         {
             int? actualJornalIndex;
+            SubjectJornal newJornal = new SubjectJornal(subjectName, new[] { mark });
             if (!TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
             {
-                SubjectJornal[] updatedStudentProgress = new SubjectJornal[_studentProgress.Length + 1];
-                Array.Copy(_studentProgress, 0, updatedStudentProgress, 0, _studentProgress.Length);
-                updatedStudentProgress[updatedStudentProgress.Length - 1] = new SubjectJornal(subjectName, new[] { mark });
-                _studentProgress = updatedStudentProgress;
+                _studentProgress = AddNewJornalToProgress(_studentProgress, newJornal);
             }
             else
             {
@@ -119,10 +136,7 @@ namespace StudentsStruct.UniversityModel
             SubjectJornal newJornal = new SubjectJornal(subjectName, marksList);
             if (!TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
             {
-                SubjectJornal[] updatedStudentProgress = new SubjectJornal[_studentProgress.Length + 1];
-                Array.Copy(_studentProgress, 0, updatedStudentProgress, 0, _studentProgress.Length);
-                updatedStudentProgress[updatedStudentProgress.Length - 1] = newJornal;
-                _studentProgress = updatedStudentProgress;
+                _studentProgress = AddNewJornalToProgress(_studentProgress, newJornal);
             }
             else
             {
@@ -195,6 +209,14 @@ namespace StudentsStruct.UniversityModel
                 tempAvgMarks[i] = AverageGradeForSubject((Subjects)i);
             }
             return tempAvgMarks.Average();
+        }
+
+        private SubjectJornal[] AddNewJornalToProgress(SubjectJornal[] initialArray, SubjectJornal newJornal) 
+        {
+            SubjectJornal[] updatedStudentProgress = new SubjectJornal[initialArray.Length + 1];
+            Array.Copy(initialArray, 0, updatedStudentProgress, 0, initialArray.Length);
+            updatedStudentProgress[updatedStudentProgress.Length - 1] = newJornal;
+            return updatedStudentProgress;
         }
 
     }
