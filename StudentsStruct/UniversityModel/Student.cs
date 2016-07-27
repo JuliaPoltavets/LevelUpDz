@@ -32,6 +32,11 @@ namespace StudentsStruct.UniversityModel
             _studentProgress = new SubjectJornal[0];
         }
 
+        /// <summary>
+        /// Method is used to update value of the StudentFirstName property
+        /// </summary>
+        /// <param name="newFirstName">value that will be set if it is not null or empty</param>
+        /// <returns>flag if operation was successful or not</returns>
         public bool ChangeFirstName(string newFirstName)
         {
             bool wasSuccessfullyChanged = false;
@@ -43,6 +48,11 @@ namespace StudentsStruct.UniversityModel
             return wasSuccessfullyChanged;
         }
 
+        /// <summary>
+        /// Method is used to update value of the StudentLastName property
+        /// </summary>
+        /// <param name="newLastName">value that will be set if it is not null or empty</param>
+        /// <returns>flag if operation was successful or not</returns>
         public bool ChangeLastName(string newLastName)
         {
             bool wasSuccessfullyChanged = false;
@@ -54,6 +64,12 @@ namespace StudentsStruct.UniversityModel
             return wasSuccessfullyChanged;
         }
 
+        /// <summary>
+        /// Get index of the required jornal with marks of the current student
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <param name="jornalIndex">Index of the particular jornal that belongs to student</param>
+        /// <returns>if operation was successful returns flag and index, otherwise returns false and null for the index value</returns>
         public bool TryGetJornalIndexBySubject(Subjects subjectName, out int? jornalIndex)
         {
             bool isSucceeded = false;
@@ -70,14 +86,19 @@ namespace StudentsStruct.UniversityModel
             return isSucceeded;
         }
 
-        public void AddNewMarkToStudentProgress(Subjects subject, byte mark)
+        /// <summary>
+        /// Adds new mark into the particular student's jornal. If Jornal does not exists for this Subject will create it and add new mark
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <param name="mark">value of the mark to be added to the students jornal</param>
+        public void AddNewMarkToStudentProgress(Subjects subjectName, byte mark)
         {
             int? actualJornalIndex;
-            if (!TryGetJornalIndexBySubject(subject, out actualJornalIndex))
+            if (!TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
             {
                 SubjectJornal[] updatedStudentProgress = new SubjectJornal[_studentProgress.Length + 1];
                 Array.Copy(_studentProgress, 0, updatedStudentProgress, 0, _studentProgress.Length);
-                updatedStudentProgress[updatedStudentProgress.Length - 1] = new SubjectJornal(subject, new[] { mark });
+                updatedStudentProgress[updatedStudentProgress.Length - 1] = new SubjectJornal(subjectName, new[] { mark });
                 _studentProgress = updatedStudentProgress;
             }
             else
@@ -86,11 +107,17 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
-        public void ReplaceJornalInStudentProgress(Subjects subject, byte[] marksList)
+
+        /// <summary>
+        /// Replace whole progress of the student for particula subject with new value
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <param name="marksList">New set of marks for the particular subject</param>
+        public void ReplaceJornalInStudentProgress(Subjects subjectName, byte[] marksList)
         {
             int? actualJornalIndex;
-            SubjectJornal newJornal = new SubjectJornal(subject, marksList);
-            if (!TryGetJornalIndexBySubject(subject, out actualJornalIndex))
+            SubjectJornal newJornal = new SubjectJornal(subjectName, marksList);
+            if (!TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
             {
                 SubjectJornal[] updatedStudentProgress = new SubjectJornal[_studentProgress.Length + 1];
                 Array.Copy(_studentProgress, 0, updatedStudentProgress, 0, _studentProgress.Length);
@@ -103,14 +130,22 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
-        public void ChangeMarkByIndex(Subjects subject, int markIndexToChange, byte newMarkValue)
+        /// <summary>
+        /// Change value of the particular mark in the spesific jornal
+        /// If jornal for the subject does not exists will create it
+        /// If index of the mark does not belongs to the progress array mark will be added as a last one into the progress
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <param name="markIndexToChange">index of the mark you want to change</param>
+        /// <param name="newMarkValue">New set of marks for the particular subject</param>
+        public void ChangeMarkByIndex(Subjects subjectName, int markIndexToChange, byte newMarkValue)
         {
             int? actualJornalIndex;
-            if (!TryGetJornalIndexBySubject(subject, out actualJornalIndex))
+            if (!TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
             {
                 _studentProgress = new SubjectJornal[]
                 {
-                        new SubjectJornal(subject, new []{ newMarkValue } )
+                        new SubjectJornal(subjectName, new []{ newMarkValue } )
                 };
             }
             if (_studentProgress[actualJornalIndex.Value].MarkList.Length - 1 < markIndexToChange)
@@ -120,18 +155,38 @@ namespace StudentsStruct.UniversityModel
             _studentProgress[actualJornalIndex.Value].MarkList[markIndexToChange] = newMarkValue;
         }
 
-        public double AverageGradeForSubject(Subjects subject)
+        /// <summary>
+        /// Calculates average grade for the student accross all his jornals with progress
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <returns>average mark of the student</returns>
+        public double AverageGradeForSubject(Subjects subjectName)
         {
             int? actualJornalIndex;
             double avgGrade = 0;
-            if (TryGetJornalIndexBySubject(subject, out actualJornalIndex))
+            if (TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
             {
                 avgGrade = _studentProgress[actualJornalIndex.Value].GetAverageGrade();
             }
             return avgGrade;
         }
+        /// <summary>
+        /// Gets the whole progress jornal for the spesific subject 
+        /// </summary>
+        /// <param name="subjectName">Subject name</param>
+        /// <returns>array of marks for the selected subject</returns>
+        public byte[] GetMarksBySubject(Subjects subjectName)
+        {
+            int? actualJornalIndex;
+            byte[] marksForSubject = null;
+            if (TryGetJornalIndexBySubject(subjectName, out actualJornalIndex))
+            {
+                marksForSubject = _studentProgress[actualJornalIndex.Value].MarkList;
+            }
+            return marksForSubject;
+        }
 
-        public double GetStudentAverageGrade()
+        private double GetStudentAverageGrade()
         {
             var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
             double[] tempAvgMarks = new double[subjectsCount];
@@ -142,15 +197,5 @@ namespace StudentsStruct.UniversityModel
             return tempAvgMarks.Average();
         }
 
-        public byte[] GetMarksBySubject(Subjects subject)
-        {
-            int? actualJornalIndex;
-            byte[] marksForSubject = null;
-            if (TryGetJornalIndexBySubject(subject, out actualJornalIndex))
-            {
-                marksForSubject = _studentProgress[actualJornalIndex.Value].MarkList;
-            }
-            return marksForSubject;
-        }
     }
 }

@@ -17,10 +17,9 @@ namespace StudentsStruct
 
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
-            // Add new student
+            // new student
             int newStIndex = group.GroupList.Length;
             Student student = new Student((short)newStIndex, "FirstName" + newStIndex, "LastName" + newStIndex);
-            group.AddStudent(student);
             // Add mark to subject 
             student.AddNewMarkToStudentProgress(Subjects.Art, 10);
             // Add mark to subject 
@@ -32,6 +31,8 @@ namespace StudentsStruct
             //Change student's personal info
             student.ChangeFirstName("NewFirstName");
             student.ChangeLastName("NewLastName");
+            //Add new student
+            group.AddStudent(student);
             //Delete student by studentId
             group.DeleteStudentFromGroup(0);
             //Best student
