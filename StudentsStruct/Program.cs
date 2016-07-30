@@ -4,101 +4,71 @@ using StudentsStruct.UniversityModel;
 
 namespace StudentsStruct
 {
-    public class ConsoleStudentGroup
+    public class Program
     {
-        public static bool TryReadStudentId(out short? studentId)
+        static void Main(string[] args)
         {
-            bool isSucceeded = false;
-            short result;
-            studentId = null;
-            Console.WriteLine("Please enter student's Id");
-            if (short.TryParse(Console.ReadLine(), out result))
-            {
-                studentId = result;
-                isSucceeded = true;
-            }
-            return isSucceeded;
+            //Random group
+            StudentsGroup group = GenerateDemoGroupOfStudents(0, 2, 2, 8);
+            ConsoleStudentGroup.PrintStudentsGroup(group);
+
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+            // new student
+            int newStIndex = group.GroupList.Length;
+            Student student = new Student((short) newStIndex, "FirstName" + newStIndex, "LastName" + newStIndex);
+            // Add mark to subject 
+            student.AddNewMarkToStudentProgress(Subjects.Art, 10);
+            // Add mark to subject 
+            student.AddNewMarkToStudentProgress(Subjects.Art, 2);
+            // Add array of marks to subject
+            student.ReplaceJornalInStudentProgress(Subjects.Geography, new byte[] {10, 10, 10});
+            //Replace whole array of marks for subject
+            student.ReplaceJornalInStudentProgress(Subjects.Art, new byte[] {5, 5, 5, 5, 5, 5});
+            //Change student's personal info
+            student.ChangeFirstName("NewFirstName");
+            student.ChangeLastName("NewLastName");
+            //Add new student
+            group.AddStudent(student);
+            //Delete student by studentId
+            group.DeleteStudentFromGroup(0);
+            //Best student
+            Student bestStudent = group.GetStudentWithHighestAvgGrade();
+            //Worst student
+            Student worstStudent = group.GetStudentWithLowestAvgGrade();
+            // AverageGrade by student's Id
+            double avgStudentGrade;
+            group.TryGetAverageStudentGrade(bestStudent.StudentId, out avgStudentGrade);
+
+            ConsoleStudentGroup.PrintStudentsGroup(group);
+            Console.ReadLine();
         }
 
-        public static bool TryReadStudentStringPersonalData(string consoleMessage, out string stringData)
-        {
-            Console.WriteLine(consoleMessage);
-            bool isSucceeded = false;
-            stringData = null;
-            string consoleInput = Console.ReadLine();
-            if (!string.IsNullOrEmpty(consoleInput))
-            {
-                stringData = consoleInput;
-                isSucceeded =  true;
-            }
-            return isSucceeded;
-        }
+        #region DemoData
 
-        public static bool TryReadIntArray(string consoleMessage, char[] allowedSeparators, out int[] intArrayData)
+        static StudentsGroup GenerateDemoGroupOfStudents(short groupId, int studentsCount, int minMarksCount,
+            int maxMarksCount)
         {
-            intArrayData = null;
-            bool isSucceeded = true;
-            Console.WriteLine(consoleMessage);
-            string[] consoleInput = Console.ReadLine().Split(allowedSeparators);
-            int[] tempArray = new int[consoleInput.Length];
-            int actualIntsInParsedString = 0;
-            for (int i = 0; i < consoleInput.Length; i++)
+            Random rnd = new Random();
+            StudentsGroup group = new StudentsGroup(groupId);
+            for (int i = 0; i < studentsCount; i++)
             {
-                int arrayElement;
-                if (int.TryParse(consoleInput[i], out arrayElement))
+                Student student = new Student((short) i, "FirstName" + i, "LastName" + i);
+                for (int j = 0; j < Enum.GetNames(typeof(Subjects)).Length; j++)
                 {
-                    tempArray[actualIntsInParsedString] = arrayElement;
-                    actualIntsInParsedString++;
+                    byte[] marksArray = new byte[rnd.Next(minMarksCount, maxMarksCount)];
+                    for (int k = 0; k < marksArray.Length; k++)
+                    {
+                        marksArray[k] = (byte) rnd.Next(1, 12);
+                    }
+                    student.ReplaceJornalInStudentProgress((Subjects) j, marksArray);
                 }
+                group.AddStudent(student);
             }
-            if (actualIntsInParsedString == 0)
-            {
-                isSucceeded = false;
-            }
-            intArrayData = new int[actualIntsInParsedString];
-            Array.Copy(tempArray, 0, intArrayData, 0, actualIntsInParsedString);
-            return isSucceeded;
+
+            return group;
         }
 
-        public static Subjects GetSubject()
-        {
-            string inputString = string.Empty;
-            Subjects subject;
-            bool isValidSubject = false;
-            do
-            {
-                Console.WriteLine("Please enter the subject title: ");
-                inputString = Console.ReadLine();
-                isValidSubject = Enum.TryParse(inputString, true, out subject);
-
-            } while (isValidSubject == false);
-
-            return subject;
-        }
-
-        public static void PrintStudentsGroup(StudentsGroup group)
-        {
-            foreach (var student in group.GroupList)
-            {
-                PrintStudentData(student);
-            }
-        }
-
-        public static void PrintStudentData(Student student)
-        {
-            Console.WriteLine("Student {0}: {1} {2}", student.StudentId, student.StudentFirstName, student.StudentLastName);
-            for (int i = 0; i < Enum.GetNames(typeof(Subjects)).Length; i++)
-            {
-                Subjects sbj = (Subjects)i;
-                byte[] marksForSbj = student.GetMarksBySubject(sbj);
-                if (marksForSbj != null)
-                {
-                    Console.WriteLine(sbj + ": " + string.Join(", ", marksForSbj));
-                    Console.WriteLine("Average grade for subject {0}: equals to: {1}", sbj, student.AverageGradeForSubject(sbj));
-                }
-            }
-            Console.WriteLine("Average grade for student {0}: equals to: {1}", student.StudentId, student.AverageGrade);
-        }
-
+        #endregion
     }
 }

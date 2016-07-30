@@ -20,19 +20,27 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
-        public void AddStudent(Student student)
+        public bool AddStudent(Student student)
         {
+            bool wasSuccessfullyAdded = false;
             if (_students == null)
             {
                 _students = new[] { student };
+                wasSuccessfullyAdded = true;
             }
             else
             {
-                Student[] updatedGroup = new Student[_students.Length + 1];
-                Array.Copy(_students, 0, updatedGroup, 0, _students.Length);
-                updatedGroup[updatedGroup.Length - 1] = student;
-                _students = updatedGroup;
+                int stIndex;
+                if (!TryGetStudentIndexById(student.StudentId, out stIndex))
+                {
+                    Student[] updatedGroup = new Student[_students.Length + 1];
+                    Array.Copy(_students, 0, updatedGroup, 0, _students.Length);
+                    updatedGroup[updatedGroup.Length - 1] = student;
+                    _students = updatedGroup;
+                    wasSuccessfullyAdded = true;
+                }
             }
+            return wasSuccessfullyAdded;
         }
 
         public bool UpdateStudentPersonalData(short studentId, string firstName, string lastName)
