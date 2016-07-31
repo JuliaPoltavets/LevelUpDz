@@ -8,31 +8,38 @@ namespace SimpleFraction
         private int _denominator;
         private int _sign;
 
-        public int Numerator
+        #region InsteadOfProperties
+
+        /// <summary>
+        /// Returns value of the numerator for the current fraction
+        /// </summary>
+        /// <returns>value of the numerator</returns>
+        public int GetNumerator()
         {
-            get { return _numerator; }
+            return _sign*_numerator;
         }
 
-        public int Denominator
+        /// <summary>
+        /// Returns value of the denominator for the current fraction
+        /// </summary>
+        /// <returns>value of the denominator</returns>
+        public int GetDenominator()
         {
-            get { return _denominator; }
+            return _denominator;
         }
 
-        public int Sign
-        {
-            get { return _sign; }
-        }
+        #endregion
 
         /// <summary>
         /// Construct new SimpleFraction struct
         /// </summary>
-        /// <param name="num">numerator value</param>
+        /// <param name="num">_numerator value</param>
         /// <param name="denom">denominator value</param>
         public SimpleFraction(int num, int denom)
         {
             if (denom == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(denom), "Denominator can not be equal to zero");
+                throw new ArgumentOutOfRangeException(nameof(denom), "_denominator can not be equal to zero");
             }
             _sign = 1;
             if (num*denom < 0)
@@ -43,7 +50,7 @@ namespace SimpleFraction
             _denominator = Math.Abs(denom);
         }
 
-        public void SetOppositeFractionSign()
+        public void SetOppositeFraction_sign()
         {
             _sign *= (-1);
         }
@@ -70,8 +77,8 @@ namespace SimpleFraction
         /// <returns>returns new fraction</returns>
         public static SimpleFraction MultiplyFraction(SimpleFraction fraction, int multiplier)
         {
-            int newNumerator = fraction.Sign*fraction.Numerator* multiplier;
-            return new SimpleFraction(newNumerator, fraction.Denominator);
+            int new_numerator = fraction._sign*fraction._numerator* multiplier;
+            return new SimpleFraction(new_numerator, fraction._denominator);
         }
 
         /// <summary>
@@ -120,17 +127,17 @@ namespace SimpleFraction
         /// <returns>new simple fraction</returns>
         public static SimpleFraction Add(SimpleFraction fractionA, SimpleFraction fractionB)
         {
-            int lcmDenominators = GetLeastCommonMultiple(fractionA.Denominator, fractionB.Denominator);
-            int increaseA = lcmDenominators/fractionA.Denominator;
-            int increaseB = lcmDenominators/fractionB.Denominator;
+            int lcm_denominators = GetLeastCommonMultiple(fractionA._denominator, fractionB._denominator);
+            int increaseA = lcm_denominators/fractionA._denominator;
+            int increaseB = lcm_denominators/fractionB._denominator;
 
             fractionA.MultiplyFraction(increaseA);
             fractionB.MultiplyFraction(increaseB);
 
-            int newNumerator = fractionA.Sign * fractionA.Numerator + fractionB.Sign * fractionB.Numerator;
-            int newDenominator = lcmDenominators;
+            int new_numerator = fractionA._sign * fractionA._numerator + fractionB._sign * fractionB._numerator;
+            int new_denominator = lcm_denominators;
 
-            return new SimpleFraction(newNumerator, newDenominator);
+            return new SimpleFraction(new_numerator, new_denominator);
         }
         
         /// <summary>
@@ -139,14 +146,14 @@ namespace SimpleFraction
         /// <param name="fractionN">fraction to be added to the current</param>
         public void Add(SimpleFraction fractionN)
         {
-            int lcmDenominators = GetLeastCommonMultiple(_denominator, fractionN.Denominator);
-            int increaseThis = lcmDenominators / _denominator;
-            int increaseN = lcmDenominators / fractionN.Denominator;
+            int lcm_denominators = GetLeastCommonMultiple(_denominator, fractionN._denominator);
+            int increaseThis = lcm_denominators / _denominator;
+            int increaseN = lcm_denominators / fractionN._denominator;
 
             fractionN.MultiplyFraction(increaseN);
 
-            _numerator = _sign *_numerator*increaseThis + fractionN.Sign * fractionN.Numerator;
-            _denominator = lcmDenominators;
+            _numerator = _sign *_numerator*increaseThis + fractionN._sign * fractionN._numerator;
+            _denominator = lcm_denominators;
         }
 
         /// <summary>
@@ -157,7 +164,7 @@ namespace SimpleFraction
         /// <returns>new simple fraction</returns>
         public static SimpleFraction Subtract(SimpleFraction fractionA, SimpleFraction fractionB)
         {
-            fractionB.SetOppositeFractionSign();
+            fractionB.SetOppositeFraction_sign();
             return SimpleFraction.Add(fractionA, fractionB);
         }
 
@@ -167,7 +174,7 @@ namespace SimpleFraction
         /// <param name="fractionN">fraction to be added to the current</param>
         public void Subtract(SimpleFraction fractionN)
         {
-            fractionN.SetOppositeFractionSign();
+            fractionN.SetOppositeFraction_sign();
             this.Add(fractionN);
         }
 
@@ -179,9 +186,9 @@ namespace SimpleFraction
         /// <returns>new instance of SimpleFraction type</returns>
         public static SimpleFraction Multiply(SimpleFraction fractionA, SimpleFraction fractionB)
         {
-            int newNumerator = fractionA.Sign * fractionA.Numerator * fractionB.Sign * fractionB.Numerator;
-            int newDenominator = fractionA.Denominator * fractionB.Denominator;
-            return new SimpleFraction(newNumerator,newDenominator);
+            int new_numerator = fractionA._sign * fractionA._numerator * fractionB._sign * fractionB._numerator;
+            int new_denominator = fractionA._denominator * fractionB._denominator;
+            return new SimpleFraction(new_numerator,new_denominator);
         }
 
         /// <summary>
@@ -190,9 +197,9 @@ namespace SimpleFraction
         /// <param name="fractionN"></param>
         public void Multiply(SimpleFraction fractionN)
         {
-            _sign *= fractionN.Sign;
-            _numerator *= fractionN.Numerator;
-            _denominator *= fractionN.Denominator;
+            _sign *= fractionN._sign;
+            _numerator *= fractionN._numerator;
+            _denominator *= fractionN._denominator;
         }
 
         /// <summary>
@@ -203,9 +210,9 @@ namespace SimpleFraction
         /// <returns>new instance of SimpleFraction type</returns>
         public static SimpleFraction Divide(SimpleFraction fractionA, SimpleFraction fractionB)
         {
-            int newNumerator = fractionA.Sign * fractionA.Numerator * fractionB.Denominator;
-            int newDenominator = fractionA.Denominator * fractionB.Sign*fractionB.Numerator;
-            return new SimpleFraction(newNumerator, newDenominator);
+            int new_numerator = fractionA._sign * fractionA._numerator * fractionB._denominator;
+            int new_denominator = fractionA._denominator * fractionB._sign*fractionB._numerator;
+            return new SimpleFraction(new_numerator, new_denominator);
         }
 
         /// <summary>
@@ -214,9 +221,9 @@ namespace SimpleFraction
         /// <param name="fractionN"></param>
         public void Divide(SimpleFraction fractionN)
         {
-            _sign *= fractionN.Sign;
-            _numerator *= fractionN.Denominator;
-            _denominator *= fractionN.Numerator;
+            _sign *= fractionN._sign;
+            _numerator *= fractionN._denominator;
+            _denominator *= fractionN._numerator;
         }
 
         /// <summary>
@@ -228,12 +235,12 @@ namespace SimpleFraction
         {
             bool wasReduced = false;
             reducedFraction = fraction;
-            int gcd = FindGreatestCommonDivisor(fraction.Numerator, fraction.Denominator);
+            int gcd = FindGreatestCommonDivisor(fraction._numerator, fraction._denominator);
             if (gcd != 1)
             {
-                int newNumerator = fraction.Numerator/gcd;
-                int newDenominator = fraction.Denominator/gcd;
-                reducedFraction = new SimpleFraction(fraction.Sign*newNumerator, newDenominator);
+                int new_numerator = fraction._numerator/gcd;
+                int new_denominator = fraction._denominator/gcd;
+                reducedFraction = new SimpleFraction(fraction._sign*new_numerator, new_denominator);
                 wasReduced = true;
             }
             return wasReduced;
