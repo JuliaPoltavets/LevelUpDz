@@ -50,12 +50,12 @@ namespace SimpleFraction
         /// <param name="multiplier"></param>
         public void MultiplyFraction(int multiplier)
         {
+            int absMultoplier = Math.Abs(multiplier);
             if (multiplier < 0)
             {
                 _sign *= -1;
             }
-            _denominator *= multiplier;
-            _numerator *= multiplier;
+            _numerator *= absMultoplier;
         }
 
         /// <summary>
@@ -66,9 +66,8 @@ namespace SimpleFraction
         /// <returns>returns new fraction</returns>
         public static SimpleFraction MultiplyFraction(SimpleFraction fraction, int multiplier)
         {
-            int newNumerator = fraction.Numerator* multiplier;
-            int newDenominator = fraction.Denominator* multiplier;
-            return new SimpleFraction(newNumerator, newDenominator);
+            int newNumerator = fraction.Sign*fraction.Numerator* multiplier;
+            return new SimpleFraction(newNumerator, fraction.Denominator);
         }
 
         /// <summary>
@@ -159,13 +158,61 @@ namespace SimpleFraction
         }
 
         /// <summary>
-        /// Subtract fraction from the current entity of simple fraction
+        /// Subtract fraction from the current instance of simple fraction
         /// </summary>
         /// <param name="fractionN">fraction to be added to the current</param>
         public void Subtract(SimpleFraction fractionN)
         {
             fractionN.SetOppositeFractionSign();
             this.Add(fractionN);
+        }
+
+        /// <summary>
+        /// Multiply one fraction on another
+        /// </summary>
+        /// <param name="fractionA">first argument</param>
+        /// <param name="fractionB">second argument</param>
+        /// <returns>new instance of SimpleFraction type</returns>
+        public static SimpleFraction Multiply(SimpleFraction fractionA, SimpleFraction fractionB)
+        {
+            int newNumerator = fractionA.Sign * fractionA.Numerator * fractionB.Sign * fractionB.Numerator;
+            int newDenominator = fractionA.Denominator * fractionB.Denominator;
+            return new SimpleFraction(newNumerator,newDenominator);
+        }
+
+        /// <summary>
+        /// Multiply current instance of fraction on another fraction
+        /// </summary>
+        /// <param name="fractionN"></param>
+        public void Multiply(SimpleFraction fractionN)
+        {
+            _sign *= fractionN.Sign;
+            _numerator *= fractionN.Numerator;
+            _denominator *= fractionN.Denominator;
+        }
+
+        /// <summary>
+        /// Divide one fraction on another
+        /// </summary>
+        /// <param name="fractionA">first argument</param>
+        /// <param name="fractionB">second argument</param>
+        /// <returns>new instance of SimpleFraction type</returns>
+        public static SimpleFraction Divide(SimpleFraction fractionA, SimpleFraction fractionB)
+        {
+            int newNumerator = fractionA.Sign * fractionA.Numerator * fractionB.Denominator;
+            int newDenominator = fractionA.Denominator * fractionB.Sign*fractionB.Numerator;
+            return new SimpleFraction(newNumerator, newDenominator);
+        }
+
+        /// <summary>
+        /// Multiply current instance of fraction on another fraction
+        /// </summary>
+        /// <param name="fractionN"></param>
+        public void Divide(SimpleFraction fractionN)
+        {
+            _sign *= fractionN.Sign;
+            _numerator *= fractionN.Denominator;
+            _denominator *= fractionN.Numerator;
         }
     }
 }
