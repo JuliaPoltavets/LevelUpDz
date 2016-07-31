@@ -35,6 +35,11 @@ namespace SimpleFraction
             var b4 = new SimpleFraction(-4, 7);
             var c4 = SimpleFraction.Divide(a4, b4);
             a4.Divide(b4);
+
+            //Reduce fraction
+            SimpleFraction c5;
+            var a5 = new SimpleFraction(20, 40);
+            bool flag = SimpleFraction.TryReduce(a5, out c5);
         }
     }
 }

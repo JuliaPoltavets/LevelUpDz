@@ -30,6 +30,10 @@ namespace SimpleFraction
         /// <param name="denom">denominator value</param>
         public SimpleFraction(int num, int denom)
         {
+            if (denom == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(denom), "Denominator can not be equal to zero");
+            }
             _sign = 1;
             if (num*denom < 0)
             {
@@ -213,6 +217,26 @@ namespace SimpleFraction
             _sign *= fractionN.Sign;
             _numerator *= fractionN.Denominator;
             _denominator *= fractionN.Numerator;
+        }
+
+        /// <summary>
+        /// Reduce fraction if it is possible using greatest common divisor
+        /// </summary>
+        /// <param name="fraction"></param>
+        /// <returns></returns>
+        public static bool TryReduce(SimpleFraction fraction, out SimpleFraction reducedFraction)
+        {
+            bool wasReduced = false;
+            reducedFraction = fraction;
+            int gcd = FindGreatestCommonDivisor(fraction.Numerator, fraction.Denominator);
+            if (gcd != 1)
+            {
+                int newNumerator = fraction.Numerator/gcd;
+                int newDenominator = fraction.Denominator/gcd;
+                reducedFraction = new SimpleFraction(fraction.Sign*newNumerator, newDenominator);
+                wasReduced = true;
+            }
+            return wasReduced;
         }
     }
 }
