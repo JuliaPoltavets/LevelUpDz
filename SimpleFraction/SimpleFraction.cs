@@ -35,8 +35,13 @@ namespace SimpleFraction
             {
                 _sign = -1;
             }
-            _numerator = num;
-            _denominator = denom;
+            _numerator = Math.Abs(num);
+            _denominator = Math.Abs(denom);
+        }
+
+        public void SetOppositeFractionSign()
+        {
+            _sign *= (-1);
         }
 
         /// <summary>
@@ -45,6 +50,10 @@ namespace SimpleFraction
         /// <param name="multiplier"></param>
         public void MultiplyFraction(int multiplier)
         {
+            if (multiplier < 0)
+            {
+                _sign *= -1;
+            }
             _denominator *= multiplier;
             _numerator *= multiplier;
         }
@@ -57,9 +66,9 @@ namespace SimpleFraction
         /// <returns>returns new fraction</returns>
         public static SimpleFraction MultiplyFraction(SimpleFraction fraction, int multiplier)
         {
-            int newNumerator = fraction.Numerator*multiplier;
-            int newDenominator = fraction.Denominator*multiplier;
-            return new SimpleFraction(fraction.Sign*newNumerator, newDenominator);
+            int newNumerator = fraction.Numerator* multiplier;
+            int newDenominator = fraction.Denominator* multiplier;
+            return new SimpleFraction(newNumerator, newDenominator);
         }
 
         /// <summary>
@@ -70,18 +79,20 @@ namespace SimpleFraction
         /// <returns></returns>
         public static int FindGreatestCommonDivisor(int numberA, int numberB)
         {
-            while (numberA != numberB)
+            int absA = Math.Abs(numberA);
+            int absB = Math.Abs(numberB);
+            while (absA != absB)
             {
-                if (numberA > numberB)
+                if (absA > absB)
                 {
-                    numberA = numberA - numberB;
+                    absA = absA - absB;
                 }
                 else
                 {
-                    numberB = numberB - numberA;
+                    absB = absB - absA;
                 }
             }
-            return numberA;
+            return absA;
         }
 
         /// <summary>
@@ -92,8 +103,10 @@ namespace SimpleFraction
         /// <returns></returns>
         public static int GetLeastCommonMultiple(int numberA, int numberB)
         {
-            int gcdAb = FindGreatestCommonDivisor(numberA, numberB);
-            return numberA*numberB/gcdAb;
+            int absA = Math.Abs(numberA);
+            int absB = Math.Abs(numberB);
+            int gcdAb = FindGreatestCommonDivisor(absA, absB);
+            return absA * absB / gcdAb;
         }
 
         /// <summary>
@@ -111,11 +124,10 @@ namespace SimpleFraction
             fractionA.MultiplyFraction(increaseA);
             fractionB.MultiplyFraction(increaseB);
 
-            int newNumerator = fractionA.Numerator + fractionB.Numerator;
+            int newNumerator = fractionA.Sign * fractionA.Numerator + fractionB.Sign * fractionB.Numerator;
             int newDenominator = lcmDenominators;
-            int newSign = fractionA.Sign*fractionB.Sign;
 
-            return new SimpleFraction(newSign*newNumerator, newDenominator);
+            return new SimpleFraction(newNumerator, newDenominator);
         }
         
         /// <summary>
@@ -130,9 +142,30 @@ namespace SimpleFraction
 
             fractionN.MultiplyFraction(increaseN);
 
-            _numerator = _numerator*increaseThis + fractionN.Numerator;
+            _numerator = _sign *_numerator*increaseThis + fractionN.Sign * fractionN.Numerator;
             _denominator = lcmDenominators;
-            _sign = _sign*fractionN.Sign;
+        }
+
+        /// <summary>
+        /// Adds two simple fractions 
+        /// </summary>
+        /// <param name="fractionA">first argument</param>
+        /// <param name="fractionB">second argument</param>
+        /// <returns>new simple fraction</returns>
+        public static SimpleFraction Subtract(SimpleFraction fractionA, SimpleFraction fractionB)
+        {
+            fractionB.SetOppositeFractionSign();
+            return SimpleFraction.Add(fractionA, fractionB);
+        }
+
+        /// <summary>
+        /// Subtract fraction from the current entity of simple fraction
+        /// </summary>
+        /// <param name="fractionN">fraction to be added to the current</param>
+        public void Subtract(SimpleFraction fractionN)
+        {
+            fractionN.SetOppositeFractionSign();
+            this.Add(fractionN);
         }
     }
 }
