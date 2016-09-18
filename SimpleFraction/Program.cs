@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleFraction
 {
@@ -11,35 +7,38 @@ namespace SimpleFraction
         static void Main(string[] args)
         {
             // Addition
-            var a1 = new SimpleFraction(2,3);
-            var b1 = new SimpleFraction(-4,7);
-            var gcd = SimpleFraction.FindGreatestCommonDivisor(3, 7);
-            var lcm = SimpleFraction.GetLeastCommonMultiple(3, 7);
-            var c1 = SimpleFraction.Add(a1,b1);
+            SimpleFraction a1 = new SimpleFraction(2,3);
+            SimpleFraction b1 = new SimpleFraction(-4,7);
+            SimpleFraction c1 = SimpleFraction.Add(a1,b1);
+            SimpleFraction d1 = a1 + b1;
             a1.Add(b1);
 
             // Subtract
-            var a2 = new SimpleFraction(2, 3);
-            var b2 = new SimpleFraction(-4, 7);
-            var c2 = SimpleFraction.Subtract(a2,b2);
+            SimpleFraction a2 = new SimpleFraction(2, 3);
+            SimpleFraction b2 = new SimpleFraction(-4, 7);
+            SimpleFraction c2 = SimpleFraction.Subtract(a2, b2);
+            SimpleFraction d2 = a2 - b2;
             a2.Subtract(b2);
 
             // Multiply
-            var a3 = new SimpleFraction(2, 3);
-            var b3 = new SimpleFraction(-4, 7);
-            var c3 = SimpleFraction.Multiply(a3, b3);
+            SimpleFraction a3 = new SimpleFraction(2, 3);
+            SimpleFraction b3 = new SimpleFraction(-4, 7);
+            SimpleFraction c3 = SimpleFraction.Multiply(a3, b3);
+            SimpleFraction d3 = a3 * b3;
             a3.Multiply(b3);
 
             // Divide
-            var a4 = new SimpleFraction(2, 3);
-            var b4 = new SimpleFraction(-4, 7);
-            var c4 = SimpleFraction.Divide(a4, b4);
+            SimpleFraction a4 = new SimpleFraction(2, 3);
+            SimpleFraction b4 = new SimpleFraction(-4, 7);
+            SimpleFraction c4 = SimpleFraction.Divide(a4, b4);
+            SimpleFraction d4 = a4 / b4;
             a4.Divide(b4);
 
             //Reduce fraction
             SimpleFraction c5;
-            var a5 = new SimpleFraction(20, 40);
+            SimpleFraction a5 = new SimpleFraction(20, 40);
             bool flag = SimpleFraction.TryReduce(a5, out c5);
+            Console.ReadLine();
         }
     }
 }
