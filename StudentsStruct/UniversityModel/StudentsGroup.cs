@@ -3,22 +3,66 @@ using System.Linq;
 
 namespace StudentsStruct.UniversityModel
 {
-    public struct StudentsGroup
+    public class StudentsGroup
     {
+
+        #region Fields
+
         private short _groupId;
         private Student[] _students;
-        public StudentsGroup(short groupId)
-        {
-            _groupId = groupId;
-            _students = null;
-        }
 
-        public Student[] GroupList {
+        #endregion
+
+        #region Properties
+
+        public short GroupId
+        {
             get
             {
-                return _students;
+                return _groupId;
+            }
+            private set
+            {
+                _groupId = value;
             }
         }
+
+        public Student[] Students
+        {
+            get
+            {
+                return (Student[])_students.Clone();
+            }
+            private set
+            {
+                _students = value;
+            }
+        }
+
+        #endregion
+
+        public StudentsGroup(short groupId, int groupSize = 0)
+        {
+            GroupId = groupId;
+            Students = new Student[groupSize];
+        }
+
+
+        #region IndexerOverload
+
+        public Student this[int key]
+        {
+            get
+            {
+                return _students[key];
+            }
+            set
+            {
+                _students[key] = value;
+            }
+        }
+
+        #endregion
 
         public bool AddStudent(Student student)
         {

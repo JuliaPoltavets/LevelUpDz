@@ -78,7 +78,7 @@ namespace StudentsStruct
 
         public static void PrintStudentsGroup(StudentsGroup group)
         {
-            foreach (var student in group.GroupList)
+            foreach (var student in group.Students)
             {
                 PrintStudentData(student);
             }

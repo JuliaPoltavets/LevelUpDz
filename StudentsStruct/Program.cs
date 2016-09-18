@@ -15,7 +15,7 @@ namespace StudentsStruct
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
             // new student
-            int newStIndex = group.GroupList.Length;
+            int newStIndex = group.Students.Length;
             Student student = new Student((short) newStIndex, "FirstName" + newStIndex, "LastName" + newStIndex);
             // Add mark to subject 
             student.AddNewMarkToStudentProgress(Subjects.Art, 10);
@@ -41,6 +41,7 @@ namespace StudentsStruct
             group.TryGetAverageStudentGrade(bestStudent.StudentId, out avgStudentGrade);
 
             ConsoleStudentGroup.PrintStudentsGroup(group);
+
             Console.ReadLine();
         }
 
