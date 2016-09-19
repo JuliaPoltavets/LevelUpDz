@@ -2,31 +2,53 @@ using System;
 
 namespace StudentsStruct.UniversityModel
 {
-    public struct SubjectJornal
+    public class SubjectJornal
     {
         private Subjects _subjectName;
         private byte[] _markList;
-        public Subjects SubjectName { get { return _subjectName;} }
-        public byte[] MarkList { get { return _markList; } }
+
+        public Subjects SubjectName
+        {
+            get
+            {
+                return _subjectName;
+            }
+            private set
+            {
+                _subjectName = value;
+            }
+        }
+
+        public byte[] MarkList
+        {
+            get
+            {
+                return _markList;
+            }
+            private set
+            {
+                _markList = value;
+            }
+        }
 
         public SubjectJornal(Subjects subjectName, byte[] marksList)
         {
-            _subjectName = subjectName;
-            _markList = marksList;
+            SubjectName = subjectName;
+            MarkList = marksList;
         }
 
         public void AddMark(byte mark)
         {
             if (MarkList == null)
             {
-                _markList = new[] { mark };
+                MarkList = new[] { mark };
             }
             else
             {
                 byte[] updatedGroup = new byte[MarkList.Length + 1];
                 Array.Copy(MarkList, 0, updatedGroup, 0, MarkList.Length);
                 updatedGroup[updatedGroup.Length - 1] = mark;
-                _markList = updatedGroup;
+                MarkList = updatedGroup;
             }
         }
 

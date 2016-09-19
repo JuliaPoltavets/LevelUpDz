@@ -6,7 +6,7 @@ namespace StudentsStruct.UniversityModel
     public class Student
     {
         private SubjectJornal[] _studentProgress;
-        private short _studentId;
+        private string _studentId;
         private string _studentFirstName;
         private string _studentLastName;
 
@@ -18,7 +18,7 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
-        public short StudentId
+        public string StudentId
         {
             get
             {
@@ -66,7 +66,7 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
-        public Student(short studentId, string studentFirstName, string studentLastName)
+        public Student(string studentId, string studentFirstName, string studentLastName)
         {
             var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
             StudentFirstName = studentFirstName;
@@ -80,7 +80,7 @@ namespace StudentsStruct.UniversityModel
         /// </summary>
         /// <param name="newFirstName">value that will be set if it is not null or empty</param>
         /// <returns>flag if operation was successful or not</returns>
-        public bool ChangeFirstName(string newFirstName)
+        public bool TryChangeFirstName(string newFirstName)
         {
             bool wasSuccessfullyChanged = false;
             if (!string.IsNullOrEmpty(newFirstName))
@@ -96,7 +96,7 @@ namespace StudentsStruct.UniversityModel
         /// </summary>
         /// <param name="newLastName">value that will be set if it is not null or empty</param>
         /// <returns>flag if operation was successful or not</returns>
-        public bool ChangeLastName(string newLastName)
+        public bool TryChangeLastName(string newLastName)
         {
             bool wasSuccessfullyChanged = false;
             if (!string.IsNullOrEmpty(newLastName))

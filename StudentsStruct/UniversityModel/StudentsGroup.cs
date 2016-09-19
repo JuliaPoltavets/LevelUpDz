@@ -50,6 +50,11 @@ namespace StudentsStruct.UniversityModel
 
         #region IndexerOverload
 
+        /// <summary>
+        /// Returns student by its order in the group
+        /// </summary>
+        /// <param name="key">Student's index in the current group</param>
+        /// <returns>Student's data</returns>
         public Student this[int key]
         {
             get
@@ -62,14 +67,53 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        /// <summary>
+        /// Get student info by unique identifier
+        /// Set new value if identifier was found, add new student to the group if student with such identifier is not present in the group
+        /// </summary>
+        /// <param name="studentId">unique identifier for the student</param>
+        /// <returns>student entity with all public properties</returns>
+        public Student this[string studentId]
+        {
+            get
+            {
+                Student foundStudent = null;
+                int stIndex;
+                if (TryGetStudentIndexById(studentId, out stIndex))
+                {
+                    foundStudent = this[stIndex];
+                }
+                return foundStudent;
+            }
+            set
+            {
+                int stIndex;
+                if (TryGetStudentIndexById(studentId, out stIndex))
+                {
+                    this[stIndex] = value;
+                }
+                else
+                {
+                    AddStudent(value);
+                }
+            }
+        }
+
         #endregion
 
+        /// <summary>
+        /// If students array is null - creates new array and add student
+        /// If Student with such identifier is already defined in the group nothing will be added
+        /// If student with such identifier is not present in the group it will be added
+        /// </summary>
+        /// <param name="student">student to be added</param>
+        /// <returns>was add operation successful or not</returns>
         public bool AddStudent(Student student)
         {
             bool wasSuccessfullyAdded = false;
             if (_students == null)
             {
-                _students = new[] { student };
+                Students = new[] { student };
                 wasSuccessfullyAdded = true;
             }
             else
@@ -78,81 +122,123 @@ namespace StudentsStruct.UniversityModel
                 if (!TryGetStudentIndexById(student.StudentId, out stIndex))
                 {
                     Student[] updatedGroup = new Student[_students.Length + 1];
-                    Array.Copy(_students, 0, updatedGroup, 0, _students.Length);
+                    Array.Copy(Students, 0, updatedGroup, 0, Students.Length);
                     updatedGroup[updatedGroup.Length - 1] = student;
-                    _students = updatedGroup;
+                    Students = updatedGroup;
                     wasSuccessfullyAdded = true;
                 }
             }
             return wasSuccessfullyAdded;
         }
 
-        public bool UpdateStudentPersonalData(short studentId, string firstName, string lastName)
+        /// <summary>
+        /// Updates student's personal data if student with such id is in the group
+        /// </summary>
+        /// <param name="studentId">unique identifier to find student in the group</param>
+        /// <param name="firstName">new value of the FirstName </param>
+        /// <param name="lastName">ew value of the LastName </param>
+        /// <returns>was update operation successful or not </returns>
+        public bool UpdateStudentPersonalData(string studentId, string firstName, string lastName)
         {
             bool wasSuccessfullyChanged = false;
             int stIndex;
             if (TryGetStudentIndexById(studentId, out stIndex))
             {
-                _students[stIndex].ChangeFirstName(firstName);
-                _students[stIndex].ChangeLastName(lastName);
-                wasSuccessfullyChanged = true;
+                bool firstNameWasChanged = Students[stIndex].TryChangeFirstName(firstName);
+                bool lastNameWasChanged = Students[stIndex].TryChangeLastName(lastName);
+                wasSuccessfullyChanged = firstNameWasChanged && lastNameWasChanged;
             }
             return wasSuccessfullyChanged;
         }
 
-        public bool DeleteStudentFromGroup(short studentId)
+        /// <summary>
+        /// Delete student from the group if student with such Id was found
+        /// </summary>
+        /// <param name="studentId">unique identifier of the student in the group</param>
+        /// <returns>was delete operation successful or not</returns>
+        public bool DeleteStudentFromGroup(string studentId)
         {
             bool wasSuccessfullyDeleted = false;
             int stIndex;
             if (TryGetStudentIndexById(studentId, out stIndex))
             {
-                if ((_students.Length - 1) > 0)
+                if ((Students.Length - 1) > 0)
                 {
-                    Student[] updatedGroup = new Student[_students.Length - 1];
-                    Array.Copy(_students, 0, updatedGroup, 0, stIndex);
-                    Array.Copy(_students, stIndex + 1, updatedGroup, stIndex, (_students.Length - 1) - stIndex);
-                    _students = updatedGroup;
+                    Student[] updatedGroup = new Student[Students.Length - 1];
+                    Array.Copy(Students, 0, updatedGroup, 0, stIndex);
+                    Array.Copy(Students, stIndex + 1, updatedGroup, stIndex, (Students.Length - 1) - stIndex);
+                    Students = updatedGroup;
                 }
                 else
                 {
-                    _students = null;
+                    Students = null;
                 }
                 wasSuccessfullyDeleted = true;
             }
             return wasSuccessfullyDeleted;
         }
 
-        public bool TryGetAverageStudentGrade(short studentId, out double avgGrade)
+        /// <summary>
+        /// Provide safe way of getting average grade of the student if it was found in the group by id
+        /// </summary>
+        /// <param name="studentId">unique identifier of the student</param>
+        /// <param name="avgGrade">calculated value for the particular student</param>
+        /// <returns>was calculation opration successful or not</returns>
+        public bool TryGetAverageStudentGrade(string studentId, out double avgGrade)
         {
             int stIndex;
             avgGrade = double.NegativeInfinity;
             if (TryGetStudentIndexById(studentId, out stIndex))
             {
-                avgGrade = _students[stIndex].AverageGrade;
+                avgGrade = this[stIndex].AverageGrade;
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Sorts descending student's list by average grade
+        /// Gets the first entry in the array - the best result
+        /// </summary>
+        /// <returns>in case student was found returns it otherwise returns null</returns>
         public Student GetStudentWithHighestAvgGrade()
         {
-            Student[] tempGroup = _students.OrderByDescending(st => st.AverageGrade).ToArray();
+            Student[] tempGroup = new Student[0];
+            if (Students != null)
+            {
+                tempGroup = Students.OrderByDescending(st => st.AverageGrade).ToArray();
+            }
             return tempGroup.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Sorts descending student's list by average grade
+        /// Gets the last entry in the array - the worst result
+        /// </summary>
+        /// <returns>in case student was found returns it otherwise returns null</returns>
         public Student GetStudentWithLowestAvgGrade()
         {
-            Student[] tempGroup = _students.OrderByDescending(st => st.AverageGrade).ToArray();
+            Student[] tempGroup = new Student[0];
+            if (Students != null)
+            {
+                tempGroup = Students.OrderByDescending(st => st.AverageGrade).ToArray();
+            }
             return tempGroup.LastOrDefault();
         }
 
-        private bool TryGetStudentIndexById(short studentId, out int studentIndex)
+        /// <summary>
+        /// Performs look up by student unique identifier in the group
+        /// </summary>
+        /// <param name="studentId">unique identifier of the student</param>
+        /// <param name="studentIndex">student index in the group with such identifier</param>
+        /// <returns>was Get operation successful or not</returns>
+        private bool TryGetStudentIndexById(string studentId, out int studentIndex)
         {
             bool studentWasFound = false;
             studentIndex = int.MinValue;
-            for (int i = 0; i < _students.Length; i++)
+            for (int i = 0; i < Students.Length; i++)
             {
-                if (_students[i].StudentId == studentId)
+                if (this[i].StudentId.Equals(studentId))
                 {
                     studentIndex = i;
                     studentWasFound = true;

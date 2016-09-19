@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using StudentsStruct.UniversityModel;
 
@@ -16,7 +17,7 @@ namespace StudentsStruct
 
             // new student
             int newStIndex = group.Students.Length;
-            Student student = new Student((short) newStIndex, "FirstName" + newStIndex, "LastName" + newStIndex);
+            Student student = new Student(Guid.NewGuid().ToString("N"), "FirstName" + newStIndex, "LastName" + newStIndex);
             // Add mark to subject 
             student.AddNewMarkToStudentProgress(Subjects.Art, 10);
             // Add mark to subject 
@@ -26,12 +27,12 @@ namespace StudentsStruct
             //Replace whole array of marks for subject
             student.ReplaceJornalInStudentProgress(Subjects.Art, new byte[] {5, 5, 5, 5, 5, 5});
             //Change student's personal info
-            student.ChangeFirstName("NewFirstName");
-            student.ChangeLastName("NewLastName");
+            student.TryChangeFirstName("NewFirstName");
+            student.TryChangeLastName("NewLastName");
             //Add new student
             group.AddStudent(student);
             //Delete student by studentId
-            group.DeleteStudentFromGroup(0);
+            group.DeleteStudentFromGroup(group[0].StudentId);
             //Best student
             Student bestStudent = group.GetStudentWithHighestAvgGrade();
             //Worst student
@@ -40,6 +41,25 @@ namespace StudentsStruct
             double avgStudentGrade;
             group.TryGetAverageStudentGrade(bestStudent.StudentId, out avgStudentGrade);
 
+            ConsoleStudentGroup.PrintStudentsGroup(group);
+
+            //Indexers
+
+            //Get
+            Student firstInGroupByIndex = group[0];
+            Student firstInGroupById = group[firstInGroupByIndex.StudentId];
+
+            //Set
+            Student studentIndexer = new Student(Guid.NewGuid().ToString("N"), "studentIndexerFirstName", "studentIndexerLastName");
+            group[0] = studentIndexer;
+
+            //Override
+            group[studentIndexer.StudentId] = new Student(Guid.NewGuid().ToString("N"), "UpdatedStudentIndexerFirstName", "UpdatedStudentIndexerLastName");
+            
+            //Add new student
+            group[Guid.NewGuid().ToString("N")] = new Student(Guid.NewGuid().ToString("N"), "TotallyNewStudentFirstName", "TotallyNewStudentLastName");
+
+            Console.WriteLine("/---------------INDEXERS---------------/");
             ConsoleStudentGroup.PrintStudentsGroup(group);
 
             Console.ReadLine();
@@ -54,7 +74,7 @@ namespace StudentsStruct
             StudentsGroup group = new StudentsGroup(groupId);
             for (int i = 0; i < studentsCount; i++)
             {
-                Student student = new Student((short) i, "FirstName" + i, "LastName" + i);
+                Student student = new Student(Guid.NewGuid().ToString("N"), "FirstName" + i, "LastName" + i);
                 for (int j = 0; j < Enum.GetNames(typeof(Subjects)).Length; j++)
                 {
                     byte[] marksArray = new byte[rnd.Next(minMarksCount, maxMarksCount)];
