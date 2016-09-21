@@ -70,6 +70,10 @@ namespace StudentsStruct.UniversityModel
             Students = new Student[groupSize];
         }
 
+        public StudentsGroup():this(0)
+        {
+        }
+
         public StudentsGroup(short groupId, Student[] studentsList)
         {
             GroupId = groupId;

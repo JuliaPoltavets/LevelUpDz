@@ -2,8 +2,9 @@
 {
     public enum Subjects
     {
-        Math = 0,
-        Geography = 1,
+        None = 0,
+        Math = 1,
+        Geography = 2,
         Physics,
         Art,
         Politology

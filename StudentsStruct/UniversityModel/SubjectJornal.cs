@@ -37,6 +37,10 @@ namespace StudentsStruct.UniversityModel
             MarkList = marksList;
         }
 
+        public SubjectJornal():this(Subjects.None, new byte[0])
+        {
+        }
+
         public SubjectJornal(SubjectJornal baseJornal)
         {
             SubjectName = baseJornal.SubjectName;

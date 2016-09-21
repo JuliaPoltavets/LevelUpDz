@@ -71,6 +71,11 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        public Student() : this(Guid.Empty.ToString("N"), "Ivanov", "Ivan")
+        {
+            
+        }
+
         public Student(string studentId, string studentFirstName, string studentLastName, int jornalsCount = 0)
         {
             StudentFirstName = studentFirstName;
