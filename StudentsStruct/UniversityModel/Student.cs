@@ -58,7 +58,12 @@ namespace StudentsStruct.UniversityModel
         {
             get
             {
-                return (SubjectJornal[])_studentProgress.Clone();
+                SubjectJornal[] safeProgress = null;
+                if (_studentProgress != null)
+                {
+                    safeProgress = CreateMemberwiseCopyOfStudentProgress(_studentProgress);
+                }
+                return safeProgress;
             }
             private set
             {
@@ -66,13 +71,27 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
-        public Student(string studentId, string studentFirstName, string studentLastName)
+        public Student(string studentId, string studentFirstName, string studentLastName, int jornalsCount = 0)
         {
-            var subjectsCount = Enum.GetNames(typeof(Subjects)).Length;
             StudentFirstName = studentFirstName;
             StudentLastName = studentLastName;
             StudentId = studentId;
-            StudentProgress = new SubjectJornal[0];
+            StudentProgress = new SubjectJornal[jornalsCount];
+        }
+
+        public Student(Student student, bool removeStudentProgress):this(student.StudentId, student.StudentFirstName, student.StudentLastName, student.StudentProgress.Length)
+        {
+            if (removeStudentProgress)
+            {
+                _studentProgress = new SubjectJornal[0];
+            }
+            else
+            {
+                for (int i = 0; i < student.StudentProgress.Length; i++)
+                {
+                    _studentProgress[i] = new SubjectJornal(student.StudentProgress[i]);
+                }
+            }
         }
 
         /// <summary>
@@ -208,6 +227,15 @@ namespace StudentsStruct.UniversityModel
             }
             return avgGrade;
         }
+
+        public void RemoveStudentProgress(Student currentStudent)
+        {
+            if(currentStudent.StudentProgress != null)
+            {
+                currentStudent.StudentProgress = new SubjectJornal[0];
+            }
+        }
+
         /// <summary>
         /// Gets the whole progress jornal for the spesific subject 
         /// </summary>
@@ -235,6 +263,16 @@ namespace StudentsStruct.UniversityModel
             return tempAvgMarks.Average();
         }
 
+        private SubjectJornal[] CreateMemberwiseCopyOfStudentProgress(SubjectJornal[] baseProgress)
+        {
+            SubjectJornal[] safeProgress = new SubjectJornal[baseProgress.Length];
+            for (int i = 0; i < safeProgress.Length; i++)
+            {
+                safeProgress[i] = new SubjectJornal(baseProgress[i]);
+            }
+            return safeProgress;
+        }
+
         private static SubjectJornal[] AddNewJornalToProgress(SubjectJornal[] initialArray, SubjectJornal newJornal) 
         {
             SubjectJornal[] updatedStudentProgress = new SubjectJornal[initialArray.Length + 1];
@@ -242,6 +280,8 @@ namespace StudentsStruct.UniversityModel
             updatedStudentProgress[updatedStudentProgress.Length - 1] = newJornal;
             return updatedStudentProgress;
         }
+
+
 
     }
 }

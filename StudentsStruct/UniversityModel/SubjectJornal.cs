@@ -37,6 +37,23 @@ namespace StudentsStruct.UniversityModel
             MarkList = marksList;
         }
 
+        public SubjectJornal(SubjectJornal baseJornal)
+        {
+            SubjectName = baseJornal.SubjectName;
+            if (baseJornal.MarkList == null)
+            {
+                MarkList = null;
+            }
+            else
+            {
+                MarkList = new byte[baseJornal.MarkList.Length];
+                for (int i = 0; i < MarkList.Length; i++)
+                {
+                    MarkList[i] = baseJornal.MarkList[i];
+                }
+            }
+        }
+
         public void AddMark(byte mark)
         {
             if (MarkList == null)

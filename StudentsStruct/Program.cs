@@ -62,6 +62,9 @@ namespace StudentsStruct
             Console.WriteLine("/---------------INDEXERS---------------/");
             ConsoleStudentGroup.PrintStudentsGroup(group);
 
+            StudentsGroup basegroup = GenerateDemoGroupOfStudents(0, 2, 2, 8);
+            StudentsGroup copygroup = new StudentsGroup(2, basegroup, false);
+
             Console.ReadLine();
         }
 

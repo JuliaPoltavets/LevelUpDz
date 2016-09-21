@@ -27,11 +27,34 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        public int StudentsCount
+        {
+            get
+            {
+                int count = 0;
+                if (_students != null)
+                {
+                    count = _students.Length;
+                }
+
+                return count;
+            }
+        }
+
         public Student[] Students
         {
             get
             {
-                return (Student[])_students.Clone();
+                Student[] safeStudentsList = null;
+                if (_students != null)
+                {
+                    safeStudentsList = new Student[_students.Length];
+                    for (int i = 0; i < safeStudentsList.Length; i++)
+                    {
+                        safeStudentsList[i] = new Student(_students[i],false);
+                    }
+                }
+                return safeStudentsList;
             }
             private set
             {
@@ -47,6 +70,17 @@ namespace StudentsStruct.UniversityModel
             Students = new Student[groupSize];
         }
 
+        public StudentsGroup(short groupId, Student[] studentsList)
+        {
+            GroupId = groupId;
+            Students = studentsList;
+        }
+
+        public StudentsGroup(short groupId, StudentsGroup baseGroup, bool removeMarks = true)
+        {
+            GroupId = groupId;
+            Students = MakeMemberwiseCopy(baseGroup.Students, removeMarks);
+        }
 
         #region IndexerOverload
 
@@ -245,6 +279,20 @@ namespace StudentsStruct.UniversityModel
                 }
             }
             return studentWasFound;
+        }
+
+        private Student[] MakeMemberwiseCopy(Student[] initialArray, bool removeStudentProgress)
+        {
+            Student[] newArray = null;
+            if (initialArray != null)
+            {
+                newArray = new Student[initialArray.Length];
+                for (int i = 0; i < newArray.Length; i++)
+                    {
+                        newArray[i] = new Student(initialArray[i], removeStudentProgress);
+                    }
+            }
+            return newArray;
         }
     }
 }
