@@ -18,6 +18,9 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        /// <summary>
+        /// Allows to set and get student's Id
+        /// </summary>
         public string StudentId
         {
             get
@@ -30,6 +33,9 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        /// <summary>
+        /// Allows to set and get student's first name
+        /// </summary>
         public string StudentFirstName
         {
             get
@@ -42,6 +48,9 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        /// <summary>
+        /// Allows to set and get student's last name
+        /// </summary>
         public string StudentLastName
         {
             get
@@ -54,6 +63,9 @@ namespace StudentsStruct.UniversityModel
             }
         }
 
+        /// <summary>
+        /// Returns copy of the Student Progress
+        /// </summary>
         public SubjectJornal[] StudentProgress
         {
             get
@@ -83,7 +95,13 @@ namespace StudentsStruct.UniversityModel
             StudentId = studentId;
             StudentProgress = new SubjectJornal[jornalsCount];
         }
-
+        
+        /// <summary>
+        /// Creates new student entity from existed student
+        /// Copies all properties from initial Student object
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="removeStudentProgress"></param>
         public Student(Student student, bool removeStudentProgress):this(student.StudentId, student.StudentFirstName, student.StudentLastName, student.StudentProgress.Length)
         {
             if (removeStudentProgress)
